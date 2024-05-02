@@ -1,0 +1,3 @@
+Cold Skill: Fire an ice shard that freezes (stuns) the first enemy hit. If the enemy has the cold element, then the skill has no effect.
+Fire Skill: Spills fire into an area. If an enemy in the area has the cold element, then it deals double damage to him. If an enemy has the fire element, then it deals no damage
+Otherwise, it deals normal damage.
