@@ -60,6 +60,11 @@ public class CameraManager : MonoBehaviour
 
     /*********************************** METHODS ***********************************/
 
+    public Camera getMainCamera()
+    {
+        return cam;
+    }
+
     /// <summary>
     /// Rotates the camera to its right (when I am looking through the camera),
     /// that is, counterclockwise when looking down from the top of Y.

@@ -14,7 +14,7 @@ public class StateManager
     /// <summary>
     /// States of the game
     /// </summary>
-    public enum State
+    public enum States
     {
         // when the game is at the main UI
         MAIN_UI,
@@ -29,12 +29,12 @@ public class StateManager
     /*********************************** CTOR ***********************************/
     public StateManager()
     {
-        state = State.MAIN_UI;
+        state = States.MAIN_UI;
     }
 
     /*********************************** FIELDS ***********************************/
 
-    private State state;
+    private States state;
 
     /*********************************** STATE TRANSITIONS ***********************************/
     // states are abbreviated in the following comments.
@@ -44,9 +44,9 @@ public class StateManager
     /// </summary>
     public void startGame()
     {
-        Utility.MyDebugAssert(state == State.MAIN_UI);
+        Utility.MyDebugAssert(state == States.MAIN_UI);
 
-        state = State.PLAYING;
+        state = States.PLAYING;
     }
 
     /// <summary>
@@ -54,9 +54,9 @@ public class StateManager
     /// </summary>
     public void exitGame()
     {
-        Utility.MyDebugAssert(state == State.PLAYING);
+        Utility.MyDebugAssert(state == States.PLAYING);
 
-        state = State.MAIN_UI;
+        state = States.MAIN_UI;
     }
 
     /// <summary>
@@ -64,9 +64,9 @@ public class StateManager
     /// </summary>
     public void win()
     {
-        Utility.MyDebugAssert(state == State.PLAYING);
+        Utility.MyDebugAssert(state == States.PLAYING);
 
-        state = State.VICTORY;
+        state = States.VICTORY;
     }
 
     /// <summary>
@@ -74,9 +74,9 @@ public class StateManager
     /// </summary>
     public void gameOver()
     {
-        Utility.MyDebugAssert(state == State.PLAYING);
+        Utility.MyDebugAssert(state == States.PLAYING);
 
-        state = State.GAME_OVER;
+        state = States.GAME_OVER;
     }
 
     /// <summary>
@@ -84,9 +84,9 @@ public class StateManager
     /// </summary>
     public void goHome()
     {
-        Utility.MyDebugAssert(state == State.VICTORY || state == State.GAME_OVER);
+        Utility.MyDebugAssert(state == States.VICTORY || state == States.GAME_OVER);
 
-        state = State.MAIN_UI;
+        state = States.MAIN_UI;
     }
 
 }
