@@ -25,15 +25,19 @@ public class CameraManager : MonoBehaviour
     // Note: in Unity: x is right, y is up, and z is forward.
 
     // see the above figure in comments
-    public const float VD = 100.0f;
+    public const float VD = 24.0f;
     // see the above figure in comments
-    public const float HD = 50.0f;
+    public const float HD = 20.0f;
 
     public const float PI = UnityEngine.Mathf.PI;
     public const float TWO_PI = 2.0f * UnityEngine.Mathf.PI;
     public const float HALF_PI = .5f * UnityEngine.Mathf.PI;
 
     /*********************************** FIELDS ***********************************/
+
+    // Can be adjusted in the editor.
+    // Radians per second.
+    public float rotateSpeed = .8f;
 
     // The main camera
     Camera cam;
@@ -54,8 +58,7 @@ public class CameraManager : MonoBehaviour
     public CameraManager()
     {
         angle = 0.0f;
-
-        throw new System.NotImplementedException("Set focalPoint");
+        focalPoint = MapManager.floorCenterPos;
     }
 
     /*********************************** METHODS ***********************************/
@@ -143,10 +146,17 @@ public class CameraManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Not used for now.
+    /// According to the input, rotate the camera
     /// </summary>
     void Update()
     {
-
+        if(Input.GetKey(KeyCode.Q))
+        {
+            rotateRight(rotateSpeed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            rotateLeft(rotateSpeed * Time.deltaTime);
+        }
     }
 }

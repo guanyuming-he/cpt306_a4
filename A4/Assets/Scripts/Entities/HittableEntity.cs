@@ -6,11 +6,23 @@ public abstract class HittableEntity : Entity, IHittable
 {
     /*********************************** Fields ***********************************/
     private float health;
+    private bool healthSet;
 
     /*********************************** Ctor ***********************************/
-    public HittableEntity(float initialHealth)
+    public HittableEntity()
     {
-        Utility.MyDebugAssert(initialHealth > 0.0f, "initial health must be positive.");
+        healthSet = false;
+    }
+
+    /*********************************** Methods ***********************************/
+    // Because prefabs all call the default constructor,
+    // I can only set the initial health using some other method.
+    public void setInitialHealth(float initialHealth)
+    {
+        Utility.MyDebugAssert(!healthSet, "Can only set health once.");
+        healthSet = true;
+
+        Utility.MyDebugAssert(initialHealth > 0.0f, "the initial health must be positive.");
         health = initialHealth;
     }
 

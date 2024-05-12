@@ -22,10 +22,6 @@ public sealed class Game : MonoBehaviour
     /*********************************** Ctor ***********************************/
     public Game()
     {
-        // can only have one instance per game
-        Utility.MyDebugAssert(gameSingleton == null);
-        gameSingleton = this;
-
         // Create the managers that don't need prefabs
         stateMgr = new StateManager();
 
@@ -39,9 +35,22 @@ public sealed class Game : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        // can only have one instance per game
+        Utility.MyDebugAssert(gameSingleton == null, "you should only put one instance per scene.");
+        gameSingleton = this;
+
         cameraMgr = GameObject.Instantiate(cameraMgr);
         mapMgr = GameObject.Instantiate(mapMgr);
         Utility.MyDebugAssert(cameraMgr != null, "check this in the editor.");
         Utility.MyDebugAssert(mapMgr != null, "check this in the editor.");
+    }
+
+    /// <summary>
+    /// Init the game by bringing up the initial objects
+    /// </summary>
+    private void Start()
+    {
+        // Test use only
+        mapMgr.createObstacles();
     }
 }
