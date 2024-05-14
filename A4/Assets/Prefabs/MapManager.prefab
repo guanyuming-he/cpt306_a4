@@ -53,3 +53,4 @@ MonoBehaviour:
   bossPrefab: {fileID: 7726450004699612137, guid: e9dffe3685dcea940aecb3253b6a3be1, type: 3}
   shortObstaclePrefab: {fileID: 8210840761035497947, guid: 2fdd3fdf32331664c94b883c2f999269, type: 3}
   highObstaclePrefab: {fileID: 6338704037772306958, guid: a8306da955fe0544eb8c2b486247ee14, type: 3}
+  skillCoinPrefab: {fileID: 7033047565065682809, guid: cb8ce1984644561408818642f03ef104, type: 3}

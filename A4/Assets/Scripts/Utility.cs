@@ -4,10 +4,14 @@ using System.Runtime.InteropServices;
 using System;
 
 /// <summary>
-/// Contains all utility functions globally available.
+/// Contains all utility functions & variable globally available.
 /// </summary>
 public static class Utility
 {
+    public const float PI = UnityEngine.Mathf.PI;
+    public const float TWO_PI = 2.0f * UnityEngine.Mathf.PI;
+    public const float HALF_PI = .5f * UnityEngine.Mathf.PI;
+
     /// <summary>
     /// https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitprocess
     /// </summary>
@@ -28,6 +32,8 @@ public static class Utility
     {
         if (!condition)
         {
+// Don't do this in the actual release version even if an assertion fails.
+#if UNITY_EDITOR
             Debugger.Break();
             Debugger.Log(0, "Assertion", "Debug Assertion Failed!\n" + msg);
             MessageBox
@@ -38,6 +44,7 @@ public static class Utility
                 0x00000000 | 0x00000010 // MB_OK | MB_ICONERROR
             );
             //ExitProcess(1);
+#endif
         }
     }
 }

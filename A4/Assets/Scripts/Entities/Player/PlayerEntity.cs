@@ -3,9 +3,17 @@
 /// </summary>
 public class PlayerEntity : HittableEntity
 {
+    /*********************************** Static Settings ***********************************/
+    public const float PLAYER_WIDTH = 1.0f;
+    public const float PLAYER_HEIGHT = 1.0f;
+
+    /*********************************** Ctor ***********************************/
+
     public PlayerEntity()
     {
     }
+
+    /*********************************** Mono ***********************************/
 
     protected override void Awake()
     {

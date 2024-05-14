@@ -76,11 +76,9 @@ public sealed class PlayerMovement : MonoBehaviour
     public bool isMoving() 
     { 
         return 
-            // do not use speed, as that name is mislead.
+            // do not use speed, as that name is misleading.
             // speed means the max speed actually.
-            moveAgent.velocity.magnitude >= staticMaxSpeed ||
-            moveAgent.pathStatus != NavMeshPathStatus.PathComplete ||
-            moveAgent.remainingDistance >= 1.0f; 
+            moveAgent.velocity.magnitude >= staticMaxSpeed; 
     }
 
     /*********************************** Mutators ***********************************/
@@ -111,10 +109,19 @@ public sealed class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when the moveAgent reports that it has finished the move.
+    /// Called when the isMoving is true in Update.
+    /// Should show the movement indicator here.
+    /// </summary>
+    private void onMoving()
+    {
+        moveIndicator.SetActive(true);
+    }
+
+    /// <summary>
+    /// Called when the isMoving is false in Update.
     /// Should hide the movement indicator here.
     /// </summary>
-    private void onMoveFinished()
+    private void onNotMoving()
     {
         moveIndicator.SetActive(false);
     }
@@ -151,10 +158,14 @@ public sealed class PlayerMovement : MonoBehaviour
             startMoving();
         }
 
-        // if stopped moving, the hide the movement indicator
-        if(!isMoving())
+        // show or hide the movement indicator based on the state.
+        if(isMoving())
         {
-            onMoveFinished();
+            onMoving();
+        }
+        else
+        {
+            onNotMoving();
         }
     }
 }

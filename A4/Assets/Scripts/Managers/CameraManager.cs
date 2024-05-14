@@ -25,9 +25,9 @@ public class CameraManager : MonoBehaviour
     // Note: in Unity: x is right, y is up, and z is forward.
 
     // see the above figure in comments
-    public const float VD = 24.0f;
+    public const float VD = 22.0f;
     // see the above figure in comments
-    public const float HD = 20.0f;
+    public const float HD = 18.0f;
 
     public const float PI = UnityEngine.Mathf.PI;
     public const float TWO_PI = 2.0f * UnityEngine.Mathf.PI;

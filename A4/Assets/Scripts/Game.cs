@@ -50,7 +50,7 @@ public sealed class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // Test use only
-        mapMgr.createObstacles();
+        // Test use only in TestScene.
+        mapMgr.enterFullGame();
     }
 }
