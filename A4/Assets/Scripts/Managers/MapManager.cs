@@ -96,6 +96,9 @@ public class MapManager : MonoBehaviour
     // pop the one as you use it.
     private Queue<int> generatedIndices;
 
+    // The specification says that I can only generate at most 3 per game.
+    private uint numGeneratedSkillCoins;
+
     /*********************************** Ctor ***********************************/
     /// <summary>
     /// Fill in the object generation data structure
@@ -129,6 +132,8 @@ public class MapManager : MonoBehaviour
                 ++i;
             }
         }
+
+        numGeneratedSkillCoins = 0;
     }
 
     /*********************************** Private Helpers ***********************************/
@@ -226,38 +231,46 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    /*********************************** Mutators ***********************************/
+
     /// <summary>
-    /// Randomly generate 3 skill coins specified by the specification.
-    /// Called by the game logic when the user chooses to start the game 
-    /// (not the training ground) from the UI.
+    /// Randomly generate a skill coin specified by the specification.
+    /// Called by the game logic 
+    ///     1. when the user chooses to start the game (not the training ground) from the UI.
+    ///     2. when a skill coin is picked up.
     /// 
     /// My masterful modularity made it possible to call this and any other generation methods
     /// in ANY order, so long as they are not called simultaneously in different threads.
     /// </summary>
-    private void createSkillCoins()
+    public void createSkillCoin()
     {
-        // generate 3 random indices into possibleObsPoints
-        for (int j = 0; j < 3; ++j)
+        // can generate at most 3
+        if (numGeneratedSkillCoins >= 3)
         {
-            try
-            {
-                generateNext();
-            }
-            catch (InvalidOperationException)
-            {
-                Utility.MyDebugAssert(false, "I have used all places. This should not happen.");
-            }
-
-            var p = possibleObsPoints[getNextGenerated()];
-            GameObject.Instantiate
-            (
-                skillCoinPrefab, 
-                new Vector3(p.x, SKILL_COIN_SPAWN_H, p.y), Quaternion.identity
-            );
+            return;
         }
-    }
 
-    /*********************************** Mutators ***********************************/
+        // generate 1 random indices into possibleObsPoints
+        try
+        {
+            generateNext();
+        }
+        catch (InvalidOperationException)
+        {
+            Utility.MyDebugAssert(false, "I have used all places. This should not happen.");
+        }
+
+        // instantiate the skill coin at the location
+        var p = possibleObsPoints[getNextGenerated()];
+        GameObject.Instantiate
+        (
+            skillCoinPrefab,
+            new Vector3(p.x, SKILL_COIN_SPAWN_H, p.y), Quaternion.identity
+        );
+
+        // Don't forget to do this.
+        ++numGeneratedSkillCoins;
+    }
 
     /// <summary>
     /// Called by the game logic when the user chooses to start the the training ground
@@ -278,7 +291,7 @@ public class MapManager : MonoBehaviour
     public void enterFullGame()
     {
         createObstacles();
-        createSkillCoins();
+        createSkillCoin();
 
         // set up the boss
         BossEntity bossEntity = boss.gameObject.GetComponent<BossEntity>();

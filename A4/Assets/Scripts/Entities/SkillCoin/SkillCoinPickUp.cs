@@ -14,6 +14,9 @@ public class SkillCoinPickUp : MonoBehaviour
             // (note that the collider is a subobject of the whole coin)
             // so actually I need to destroy its parent.
             GameObject.Destroy(gameObject.transform.parent.gameObject);
+
+            // Finally add another skill coin
+            Game.gameSingleton.mapMgr.createSkillCoin();
         }
     }
 }
