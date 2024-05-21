@@ -13,6 +13,13 @@ public class PlayerEntity : HittableEntity
     {
     }
 
+    /*********************************** From Entity ***********************************/
+
+    public override Side getSide()
+    {
+        return Side.PLAYER;
+    }
+
     /*********************************** Mono ***********************************/
 
     protected override void Awake()

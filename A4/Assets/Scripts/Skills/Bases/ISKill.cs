@@ -5,11 +5,9 @@
 /// 
 /// A. The releasing of a skill.
     /// Although some skills are released instantaneously and some are not,
-    /// I define two methods anyway:
-    ///     1. startReleasing();
-    ///     2. stopReleasing();
-    /// If a skill is released instantaneously, then only 1 has effect and 2 should be empty.
-    /// If a skill is not released instantaneously, then both have effects.
+    /// I define only one method in this interface anyway:
+    ///     1. onReleased()
+    /// , because I believe handling the releasing process of a skill is too specific to be defined here.
     /// 
 /// B. The selection of a skill.
     /// In this game, both the boss and the player can own a number of skills,
@@ -21,18 +19,11 @@
 public interface ISkill
 {
     /// <summary>
-    /// Called to start releasing the skill.
-    /// For skills that are released instantaneously,
-    /// this method performs the action of the skill.
+    /// Called when the skill is just released.
+    /// 
+    /// In this method, perform (activate) the effect of the skill.
     /// </summary>
-    public void startReleasing();
-
-    /// <summary>
-    /// Called to end releasing the skill.
-    /// For skills that are NOT released instantaneously,
-    /// this method performs the action of the skill.
-    /// </summary>
-    public void stopReleasing();
+    public void onReleased();
 
     /// <returns>
     /// true iff releaseSkill can be called now.

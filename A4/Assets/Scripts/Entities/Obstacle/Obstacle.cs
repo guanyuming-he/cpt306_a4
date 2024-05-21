@@ -14,6 +14,11 @@ public sealed class Obstacle : Entity
 
     /*********************************** From Entity ***********************************/
 
+    public override Side getSide()
+    {
+        return Side.ENVIRONMENT;
+    }
+
     protected override void Awake()
     {
     }

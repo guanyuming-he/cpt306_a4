@@ -13,6 +13,13 @@ public class BossEntity : HittableEntity
     public float gameHealth;
     public float trainingGroundHealth;
 
+    /*********************************** From Entity ***********************************/
+
+    public override Side getSide()
+    {
+        return Side.BOSS;
+    }
+
     /*********************************** Mutators ***********************************/
     /// <summary>
     /// Called by map manager

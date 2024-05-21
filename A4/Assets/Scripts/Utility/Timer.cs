@@ -44,7 +44,7 @@ public class Timer
 
     //// Settings variables. They are readonly once set, hence are public.
     
-    // true -> reset() + start() are called IMMEDIATELY (after the callback) when fired.
+    // true -> restart() is called IMMEDIATELY (after the callback) when fired.
     // false -> no effect.
     public readonly bool loop;
     // how many second does it take for a started timer to fire?
@@ -66,14 +66,14 @@ public class Timer
     /// </param>
     /// 
     /// <exception cref="System.ArgumentException">
-    /// 1. if fireTime is less than or equal to 0.0f
+    /// 1. if fireTime is negative
     /// 2. if loop = true && onFireCallback = null
     /// </exception>
     public Timer(float fireTime, onFire onFireCallback, bool loop = false)
     {
-        if(fireTime <= 0.0f)
+        if(fireTime < 0.0f)
         {
-            throw new System.ArgumentException("fireTime must be positive.");
+            throw new System.ArgumentException("fireTime must not be negative.");
         }
         if(loop == true && onFireCallback == null)
         {
@@ -117,8 +117,7 @@ public class Timer
 
             if (loop)
             {
-                reset();
-                start();
+                restart();
             }
         }
     }
@@ -147,5 +146,14 @@ public class Timer
         }
 
         state = State.RUNNING;
+    }
+
+    /// <summary>
+    /// Exactly the same as reset() + start().
+    /// </summary>
+    public void restart()
+    {
+        reset();
+        start();
     }
 }

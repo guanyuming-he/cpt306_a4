@@ -11,6 +11,22 @@
 /// </summary>
 public abstract class Entity : MonoBehaviour
 {
+    /*********************************** Static ***********************************/
+
+    /// <summary>
+    /// On which side an entity is.
+    /// </summary>
+    public enum Side
+    {
+        PLAYER,
+        BOSS,
+        ENVIRONMENT
+    }
+
+    /*********************************** Methods ***********************************/
+    /// <returns>the side that the entity is on.</returns>
+    public abstract Side getSide();
+
     /*********************************** Mono ***********************************/
     protected abstract void Awake();
 
