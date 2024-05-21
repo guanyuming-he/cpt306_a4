@@ -7,8 +7,10 @@
 /// The class SkillData provides all the data settable for a ConcreteSkill.
 /// To provide extra data for more specific skills, extend this class.
 /// </summary>
-public class SkillData : ScriptableObject
+public abstract class SkillData : ScriptableObject
 {
     /*********************************** Fields ***********************************/
     public float cooldown;
+    public uint cost;
+    public ConcreteSkill.Level level;
 }

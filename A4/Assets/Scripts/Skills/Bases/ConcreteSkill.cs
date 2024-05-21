@@ -10,11 +10,24 @@
 /// </summary>
 public abstract class ConcreteSkill : MonoBehaviour, ISkill
 {
+    public enum Level
+    {
+        LEVEL_1,
+        LEVEL_2,
+        LEVEL_3,
+        LEVEL_4,
+        LEVEL_5,
+    }
+
     /*********************************** Fields ***********************************/
     private bool selected;
     protected Timer cooldownTimer;
 
     protected SkillData skillData;
+
+    // how much skill coin the skill costs.
+    private uint cost;
+    private Level level;
 
     /*********************************** Ctor ***********************************/
     public ConcreteSkill()

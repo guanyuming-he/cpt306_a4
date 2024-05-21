@@ -18,5 +18,5 @@ public interface IHittable
     /// Damage source is not needed in this game.
     /// </summary>
     /// <param name="dmg"></param>
-    public abstract void onHit(int dmg);
+    public abstract void onHit(float dmg);
 }

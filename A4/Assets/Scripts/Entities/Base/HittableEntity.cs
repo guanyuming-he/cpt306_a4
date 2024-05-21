@@ -6,6 +6,8 @@ public abstract class HittableEntity : Entity, IHittable
 {
     /*********************************** Fields ***********************************/
     private float health;
+    // at Start(), this is set to health to record the max value.
+    private float maxHealth;
     private bool healthSet;
 
     /*********************************** Ctor ***********************************/
@@ -24,20 +26,33 @@ public abstract class HittableEntity : Entity, IHittable
 
         Utility.MyDebugAssert(initialHealth > 0.0f, "the initial health must be positive.");
         health = initialHealth;
+        maxHealth = health;
     }
 
-    /*********************************** From IHittable ***********************************/
+    /*********************************** Observers ***********************************/
 
     public float getHealth()
     {
         return health;
     }
 
+    public float getMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public float getHealthInPercent()
+    {
+        return 100.0f * health / maxHealth;
+    }
+
+    /*********************************** From IHittable ***********************************/
+
     /// <summary>
     /// Leave it virtual so that subclasses may override it.
     /// </summary>
     /// <param name="dmg"></param>
-    public virtual void onHit(int dmg)
+    public virtual void onHit(float dmg)
     {
         health -= dmg;
     }

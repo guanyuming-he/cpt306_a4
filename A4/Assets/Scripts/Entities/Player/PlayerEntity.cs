@@ -7,6 +7,9 @@ public class PlayerEntity : HittableEntity
     public const float PLAYER_WIDTH = 1.0f;
     public const float PLAYER_HEIGHT = 1.0f;
 
+    /*********************************** Fields ***********************************/
+    HealthBar healthBar;
+
     /*********************************** Ctor ***********************************/
 
     public PlayerEntity()
