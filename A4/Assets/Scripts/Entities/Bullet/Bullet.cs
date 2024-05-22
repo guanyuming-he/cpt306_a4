@@ -10,6 +10,10 @@ public class Bullet : Entity
     public float speed;
     public Entity.Side whichSide;
 
+    /// <summary>
+    /// Side is set by the one that spawns the bullet.
+    /// </summary>
+    /// <returns></returns>
     public override Side getSide()
     {
         return whichSide;
@@ -75,11 +79,11 @@ public class Bullet : Entity
         }
 
         // Now I have hit a opponent.
-        var hittable = entity as IHittable;
-        // If the entity can be hit.
-        if(hittable != null)
+        var damageable = entity as IDamageable;
+        // If the entity can be damaged
+        if(damageable != null)
         {
-            hittable.onHit(damage);
+            damageable.onTakenDamage(damage);
         }
         // destroy myself regardless of whether the target can be hit (damaged) or not.
         GameObject.Destroy(gameObject);

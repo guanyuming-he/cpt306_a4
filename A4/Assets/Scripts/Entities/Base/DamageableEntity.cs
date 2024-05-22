@@ -1,8 +1,8 @@
 ﻿/// <summary>
-/// The player and the boss are hittable.
-/// All obstacles are NOT hittable.
+/// The player and the boss are damageable.
+/// All obstacles are NOT damageable.
 /// </summary>
-public abstract class HittableEntity : Entity, IHittable
+public abstract class DamageableEntity : Entity, IDamageable
 {
     /*********************************** Fields ***********************************/
     private float health;
@@ -11,7 +11,7 @@ public abstract class HittableEntity : Entity, IHittable
     private bool healthSet;
 
     /*********************************** Ctor ***********************************/
-    public HittableEntity()
+    public DamageableEntity()
     {
         healthSet = false;
     }
@@ -46,14 +46,25 @@ public abstract class HittableEntity : Entity, IHittable
         return 100.0f * health / maxHealth;
     }
 
-    /*********************************** From IHittable ***********************************/
+    /*********************************** From IDamageable ***********************************/
 
     /// <summary>
     /// Leave it virtual so that subclasses may override it.
     /// </summary>
     /// <param name="dmg"></param>
-    public virtual void onHit(float dmg)
+    public virtual void onTakenDamage(float dmg)
     {
         health -= dmg;
+
+        if ((this as IDamageable).dead())
+        {
+            onDeath();
+        }
     }
+
+    /*********************************** Abstract methods ***********************************/
+    /// <summary>
+    /// Called in onTakenDamage() when the entity has died from the damage.
+    /// </summary>
+    public abstract void onDeath();
 }

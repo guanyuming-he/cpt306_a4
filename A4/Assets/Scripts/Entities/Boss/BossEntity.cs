@@ -1,8 +1,8 @@
 ﻿
 /// <summary>
-/// Represents the hittable part of a boss.
+/// Represents the damageable and physical part of the boss.
 /// </summary>
-public class BossEntity : HittableEntity
+public class BossEntity : DamageableEntity
 {
     /*********************************** Static ***********************************/
     // decided by myself so long as it's no bigger than 5.0f
@@ -18,6 +18,13 @@ public class BossEntity : HittableEntity
     public override Side getSide()
     {
         return Side.BOSS;
+    }
+
+    /*********************************** From DamageableEntity ***********************************/
+
+    public override void onDeath()
+    {
+        throw new System.NotImplementedException();
     }
 
     /*********************************** Mutators ***********************************/

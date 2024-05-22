@@ -28,6 +28,31 @@ public sealed class Game : MonoBehaviour
         // all that can't be inited here are inited in Awake().
     }
 
+    /*********************************** Mutators ***********************************/
+    /// <summary>
+    /// When the user selects "start" on the main UI
+    /// </summary>
+    public void startFullGame()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    /// <summary>
+    /// When the user selects "training" on the main UI
+    /// </summary>
+    public void startTrainingGround()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    /// <summary>
+    /// When the user selects "exit" on the main UI
+    /// </summary>
+    public void exitGame()
+    {
+        throw new System.NotImplementedException();
+    }
+
     /*********************************** Mono ***********************************/
 
     /// <summary>

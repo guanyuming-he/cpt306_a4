@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// An entity that is hittable has a health and can be hit.
+/// An entity that is damageable has a health and can be damaged.
 /// </summary>
-public interface IHittable
+public interface IDamageable
 {
     /*********************************** Methods ***********************************/
     public bool dead()
@@ -18,5 +18,5 @@ public interface IHittable
     /// Damage source is not needed in this game.
     /// </summary>
     /// <param name="dmg"></param>
-    public abstract void onHit(float dmg);
+    public abstract void onTakenDamage(float dmg);
 }

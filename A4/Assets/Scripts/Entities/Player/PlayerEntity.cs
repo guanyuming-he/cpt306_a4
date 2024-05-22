@@ -1,7 +1,7 @@
 ﻿/// <summary>
-/// This component lets the player character act as a hittable entity.
+/// Represents the damageable and physical part of the player.
 /// </summary>
-public class PlayerEntity : HittableEntity
+public class PlayerEntity : DamageableEntity
 {
     /*********************************** Static Settings ***********************************/
     public const float PLAYER_WIDTH = 1.0f;
@@ -23,6 +23,13 @@ public class PlayerEntity : HittableEntity
         return Side.PLAYER;
     }
 
+    /*********************************** From DamageableEntity ***********************************/
+
+    public override void onDeath()
+    {
+        throw new System.NotImplementedException();
+    }
+
     /*********************************** Mono ***********************************/
 
     protected override void Awake()
@@ -36,10 +43,10 @@ public class PlayerEntity : HittableEntity
     }
 
     /// <summary>
-    /// Constantly check if the player is dead.
+    /// Nothing for now.
     /// </summary>
     protected override void Update()
     {
-        throw new System.NotImplementedException("Constantly check if the player is dead.");
+        
     }
 }
