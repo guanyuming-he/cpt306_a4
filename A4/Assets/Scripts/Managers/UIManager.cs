@@ -1,8 +1,31 @@
-using UnityEditor.Callbacks;
+//#define PERSISTENT_UI_LISTENERS
+
+#if PERSISTENT_UI_LISTENERS
+using UnityEditor.Events;
+#endif
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    /*********************************** Static helpers ***********************************/
+
+
+    /// <summary>
+    /// At one time, there should only be one menu active.
+    /// This helper hides the old menu and shows the new menu.
+    /// </summary>
+    /// <param name="oldMenu">the menu to be hidden</param>
+    /// <param name="newMenu">the menu to be shown</param>
+    public static void switchMenu(GameObject oldMenu, GameObject newMenu)
+    {
+        Utility.MyDebugAssert(oldMenu.activeSelf == true, "the old menu should be active.");
+        Utility.MyDebugAssert(newMenu.activeSelf == false, "the new menu should be inactive.");
+
+        oldMenu.SetActive(false);
+        newMenu.SetActive(true);
+    }
+
     /*********************************** Fields ***********************************/
     public GameObject mainMenu;
     public GameObject gameOverMenu;
@@ -37,32 +60,75 @@ public class UIManager : MonoBehaviour
         // The component order you apply in the Inspector is
         // the same order that you need to use when you query components in your scripts.
 
-        // Dynamic event binding isn't visible in the editor.
-        // To make them visible, in the editor, use UnityEventTools.AddVoidPersistentListener
-        #if UNITY_EDITOR
+// If I want to make the events persistent.
+#if PERSISTENT_UI_LISTENERS
+        // main menu
+        {
+            var btns = mainMenu.GetComponentsInChildren<Button>();
 
-        // outside of the editor, use xxx.AddListener
-        #else
+            // start btn
+            UnityEventTools.AddVoidPersistentListener(btns[0].onClick, () => { Game.gameSingleton.startFullGame(); });
+            // training btn
+            UnityEventTools.AddVoidPersistentListener(btns[1].onClick, () => { Game.gameSingleton.startTrainingGround(); });
+            // options btn
+            UnityEventTools.AddVoidPersistentListener(btns[3].onClick, () => { switchMenu(mainMenu, optionsMenu); });
+            // exit btn
+            UnityEventTools.AddVoidPersistentListener(btns[4].onClick, () => { Game.gameSingleton.exitGame(); });
+        }
 
-        #endif
+        // in game menu.
+        {
+            // nothing. it is controlled by a dedicated script.
+        }
+
+        // options menu
+        {
+            // nothing. it is controlled by a dedicated script.
+        }
+
+        // game over menu
+        {
+            var btns = gameOverMenu.GetComponentsInChildren<Button>();
+            // go back button
+            UnityEventTools.AddVoidPersistentListener(btns[0].onClick, () => Game.gameSingleton.goHome());
+        }
+
+#else // outside of the editor, use xxx.AddListener
+        // main menu
+        {
+            var btns = mainMenu.GetComponentsInChildren<Button>();
+
+            // start btn
+            btns[0].onClick.AddListener( () => { Game.gameSingleton.startFullGame(); });
+            // training btn
+            btns[1].onClick.AddListener(() => { Game.gameSingleton.startTrainingGround(); });
+            // options btn
+            btns[2].onClick.AddListener(() => { switchMenu(mainMenu, optionsMenu); });
+            // exit btn
+            btns[3].onClick.AddListener(() => { Game.gameSingleton.exitGame(); });
+        }
+
+        // in game menu.
+        {
+            // nothing. it is controlled by a dedicated script.
+        }
+
+        // options menu
+        {
+            // nothing. it is controlled by a dedicated script.
+        }
+
+        // game over menu
+        {
+            var btns = gameOverMenu.GetComponentsInChildren<Button>();
+            // go back button
+            btns[0].onClick.AddListener(() => Game.gameSingleton.goHome());
+        }
+        
+#endif
     }
 
     /*********************************** Mutators (, which change UI states) ***********************************/
-
-    /// <summary>
-    /// At one time, there should only be one menu active.
-    /// This helper hides the old menu and shows the new menu.
-    /// </summary>
-    /// <param name="oldMenu">the menu to be hidden</param>
-    /// <param name="newMenu">the menu to be shown</param>
-    public void switchMenu(GameObject oldMenu, GameObject newMenu)
-    {
-        Utility.MyDebugAssert(oldMenu.activeSelf == true, "the old menu should be active.");
-        Utility.MyDebugAssert(newMenu.activeSelf == false, "the new menu should be inactive.");
-
-        oldMenu.SetActive(false);
-        newMenu.SetActive(true);
-    }
 
     /// <summary>
     /// Hide all except the in game menu.
@@ -84,12 +150,31 @@ public class UIManager : MonoBehaviour
         inGameMenu.SetActive(false);
     }
 
-    /*********************************** Mono ***********************************/
+    /// <summary>
+    /// Hide the main UI and show the in game UI.
+    /// </summary>
+    public void onGameStart()
+    {
+        switchMenu(mainMenu, inGameMenu);
+    }
 
-    // Start is called before the first frame update
+    /*********************************** Mono ***********************************/
+    
+    /// <summary>
+    /// Spawn and hide all UIs
+    /// </summary>
+    private void Awake()
+    {
+        spawnAllUI();
+        hideAllUI();
+    }
+
+    /// <summary>
+    /// Set up UI events
+    /// </summary>
     void Start()
     {
-        
+        setUpUIEvents();
     }
 
     // Update is called once per frame

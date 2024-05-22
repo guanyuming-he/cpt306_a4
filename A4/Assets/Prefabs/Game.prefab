@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraMgr: {fileID: 7339478557797958357, guid: 1051116f869c6e84786e70cf26095937, type: 3}
   mapMgr: {fileID: 3448667237582304475, guid: 4e1ddd689fa1cc244851636a2442f3e1, type: 3}
+  uiMgr: {fileID: 7032764078651254781, guid: 407e5202dd82f70458421d675ca565a5, type: 3}

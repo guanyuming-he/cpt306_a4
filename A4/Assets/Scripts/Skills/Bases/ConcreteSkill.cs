@@ -4,7 +4,7 @@
 /// A ConcreteSkill is a concrete (opposed to the most abstract form, an interface) 
 /// implementation of ISkill that defines a few necessary fields and the basic logic.
 /// 
-/// It inherits from MonoBehaviour so that it can be attached to an object.
+/// It does inherit from MonoBehaviour because it has to read the input and perform various effects.
 /// 
 /// A subclass MUST call the base's version when overriding any virtual method.
 /// </summary>
@@ -22,21 +22,16 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
     /*********************************** Fields ***********************************/
     private bool selected;
     protected Timer cooldownTimer;
-
-    protected SkillData skillData;
-
-    // how much skill coin the skill costs.
-    private uint cost;
-    private Level level;
+    // set in the editor.
+    public SkillData skillData;
 
     /*********************************** Ctor ***********************************/
+
     public ConcreteSkill()
     {
         selected = false;
-        // inited later as the skill information is not available at construction for a Unity script.
+        // Need to wait for Awake()
         cooldownTimer = null;
-        // set later in setSkillData()
-        skillData = null;
     }
 
     /*********************************** Observers ***********************************/
@@ -51,11 +46,20 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
     }
 
     /*********************************** Mutators ***********************************/
-    public void setSkillData(SkillData data)
+    /// <summary>
+    /// Init the skill with the data set in editor.
+    /// Must only be called in Awake()
+    /// </summary>
+    protected virtual void setData()
     {
-        Utility.MyDebugAssert(skillData == null, "can only set skill data once.");
+        Utility.MyDebugAssert(skillData != null, "Set the skill data in the editor.");
 
-        skillData = data;
+        // Timer
+        {
+            Utility.MyDebugAssert(skillData.cooldown >= 0.0f, "cooldown cannot be negative.");
+            // does not loop and does not call back when it fires.
+            cooldownTimer = new Timer(skillData.cooldown, null, false);
+        }
     }
 
     /*********************************** Interface ISkill ***********************************/
@@ -79,29 +83,18 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
         selected = true;
     }
 
-    public abstract void onReleased();
+    public abstract void onReleased(Vector3 position, GameObject target);
 
     /*********************************** Mono ***********************************/
 
     /// <summary>
-    /// Check if an instance of SkillData has been provided to it.
-    /// And init the skill with the skill data.
+    /// Set the skill's data.
     /// </summary>
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        Utility.MyDebugAssert(skillData != null, "need data for this skill.");
-
-        // Timer
-        {
-            Utility.MyDebugAssert(skillData.cooldown >= 0.0f, "cooldown cannot be negative.");
-            // does not loop and does not call back when it fires.
-            cooldownTimer = new Timer(skillData.cooldown, null, false);
-        }        
+        setData();
     }
 
-    /// <summary>
-    /// Any action that the skill needs to perfrom per frame.
-    /// </summary>
     protected virtual void Update()
     {
         cooldownTimer.update(Time.deltaTime);

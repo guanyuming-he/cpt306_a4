@@ -10,6 +10,8 @@ public class PlayerEntity : DamageableEntity
     /*********************************** Fields ***********************************/
     HealthBar healthBar;
 
+    public float initialHealth;
+
     /*********************************** Ctor ***********************************/
 
     public PlayerEntity()
@@ -39,7 +41,9 @@ public class PlayerEntity : DamageableEntity
 
     protected override void Start()
     {
-        // Do nothing for now.
+        // 1. set the inital health
+        Utility.MyDebugAssert(initialHealth > 0.0f, "health must be positive.");
+        setInitialHealth(initialHealth);
     }
 
     /// <summary>

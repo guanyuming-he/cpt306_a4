@@ -10,7 +10,15 @@
 public abstract class SkillData : ScriptableObject
 {
     /*********************************** Fields ***********************************/
+    [Header("Gameplay")]
     public float cooldown;
+
+    [Header("Skill Properties")]
     public uint cost;
     public ConcreteSkill.Level level;
+
+    // A UI element that displays the skill's icon.
+    public GameObject skillIconUI;
+    public string description;
+
 }

@@ -13,6 +13,8 @@ public sealed class Game : MonoBehaviour
     public CameraManager cameraMgr;
     // assigned in editor
     public MapManager mapMgr;
+    // assigned in editor
+    public UIManager uiMgr;
 
     // Will always be available before all's ctor
     // (because Game creates all, and in its ctor, the singleton var is assigned first).
@@ -34,7 +36,9 @@ public sealed class Game : MonoBehaviour
     /// </summary>
     public void startFullGame()
     {
-        throw new System.NotImplementedException();
+        mapMgr.enterFullGame();
+        stateMgr.startGame();
+        uiMgr.onGameStart();
     }
 
     /// <summary>
@@ -42,7 +46,9 @@ public sealed class Game : MonoBehaviour
     /// </summary>
     public void startTrainingGround()
     {
-        throw new System.NotImplementedException();
+        mapMgr.enterTrainingGround();
+        stateMgr.startGame();
+        uiMgr.onGameStart();
     }
 
     /// <summary>
@@ -50,7 +56,26 @@ public sealed class Game : MonoBehaviour
     /// </summary>
     public void exitGame()
     {
-        throw new System.NotImplementedException();
+        // Destroy all the Mono managers
+        GameObject.Destroy(uiMgr);
+        GameObject.Destroy(cameraMgr);
+        GameObject.Destroy(mapMgr);
+
+        // Destroy myself
+        GameObject.Destroy(gameObject);
+
+        // exit the game
+        Application.Quit();   
+    }
+
+    /// <summary>
+    /// Transition between the game over menu to the main menu.
+    /// </summary>
+    public void goHome()
+    {
+        stateMgr.goHome();
+        mapMgr.clear();
+        UIManager.switchMenu(uiMgr.gameOverMenu, uiMgr.mainMenu);
     }
 
     /*********************************** Mono ***********************************/
@@ -66,8 +91,10 @@ public sealed class Game : MonoBehaviour
 
         cameraMgr = GameObject.Instantiate(cameraMgr);
         mapMgr = GameObject.Instantiate(mapMgr);
+        uiMgr = GameObject.Instantiate(uiMgr);
         Utility.MyDebugAssert(cameraMgr != null, "check this in the editor.");
         Utility.MyDebugAssert(mapMgr != null, "check this in the editor.");
+        Utility.MyDebugAssert(uiMgr != null, "check this in the editor.");
     }
 
     /// <summary>
@@ -75,7 +102,6 @@ public sealed class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // Test use only in TestScene.
-        mapMgr.enterFullGame();
+        uiMgr.mainMenu.SetActive(true);
     }
 }

@@ -46,6 +46,8 @@ public class StateManager
 
     /*********************************** METHODS ***********************************/
 
+    public States getState() { return state; }
+
     public uint getNumSkillCoins() { return numSkillCoins; }
 
     /// <summary>

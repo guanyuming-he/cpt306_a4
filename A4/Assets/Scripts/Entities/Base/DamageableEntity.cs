@@ -13,6 +13,9 @@ public abstract class DamageableEntity : Entity, IDamageable
     /*********************************** Ctor ***********************************/
     public DamageableEntity()
     {
+        // give some initial values
+        health = 1.0f;
+        maxHealth = 1.0f;
         healthSet = false;
     }
 

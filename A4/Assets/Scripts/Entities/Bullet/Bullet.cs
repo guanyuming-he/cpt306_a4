@@ -8,7 +8,10 @@ public class Bullet : Entity
     /*********************************** Fields ***********************************/
     public float damage;
     public float speed;
+    public Vector3 direction = Vector3.forward;
     public Entity.Side whichSide;
+
+    Rigidbody bulletRb;
 
     /// <summary>
     /// Side is set by the one that spawns the bullet.
@@ -32,6 +35,9 @@ public class Bullet : Entity
             whichSide != Side.ENVIRONMENT,
             "a bullet must be either from a player's or the boss's side"
         );
+
+        bulletRb = gameObject.GetComponent<Rigidbody>();
+        Utility.MyDebugAssert(bulletRb != null, "should have the rigidbody component.");
     }
 
     /// <summary>
@@ -43,11 +49,12 @@ public class Bullet : Entity
     }
 
     /// <summary>
-    /// Do nothing for now.
+    /// Make it fly. The default implementation is a straight line.
+    /// Subclasses can override this.
     /// </summary>
     protected override void Update()
     {
-
+        bulletRb.velocity = speed * direction.normalized;
     }
 
     private void OnCollisionEnter(UnityEngine.Collision collision)

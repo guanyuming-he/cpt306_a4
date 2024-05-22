@@ -9,7 +9,7 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class HealthBar : MonoBehaviour
 {
-
+    /*********************************** Fields ***********************************/
     [Header("Title Setting")]
     public string Title;
     public Color TitleColor;
@@ -35,6 +35,7 @@ public class HealthBar : MonoBehaviour
     private AudioSource audiosource;
     private Text txtTitle;
     private float barValue;
+
     public float BarValue
     {
         get { return barValue; }
@@ -46,7 +47,20 @@ public class HealthBar : MonoBehaviour
             UpdateValue(barValue);
 
         }
-    }    
+    }
+
+    /*********************************** Methods ***********************************/
+    /// <summary>
+    /// Update the values using the entity's health values.
+    /// </summary>
+    /// <param name="entity"></param>
+    public void updateValues(DamageableEntity entity)
+    {
+        maxHealth = entity.getMaxHealth();
+        BarValue = entity.getHealthInPercent();
+    }
+
+    /*********************************** Private Helpers & Mono ***********************************/
 
     private void Awake()
     {
@@ -89,31 +103,16 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
-        if (!Application.isPlaying)
-        // In editor
-        {
-            txtTitle.color = TitleColor;
-            txtTitle.font = TitleFont;
-            txtTitle.fontSize = TitleFontSize;
+        UpdateValue(barValue);
 
-            bar.color = BarColor;
-            barBackground.color = BarBackGroundColor;
+        txtTitle.color = TitleColor;
+        txtTitle.font = TitleFont;
+        txtTitle.fontSize = TitleFontSize;
 
-            barBackground.sprite = BarBackGroundSprite;           
-        }
-        else
-        // In game
-        {
-            // billboard effect
-            {
-                Camera cam = Game.gameSingleton.cameraMgr.getMainCamera();
-                // To get the y,z axes of the camera in the world,
-                // rotate the world's y,z axes by the camera's rotation.
-                Vector3 camUp = cam.transform.rotation * Vector3.up;
-                Vector3 camFwd = cam.transform.rotation * Vector3.forward;
-                transform.rotation.SetLookRotation(camFwd, camUp);
-            }
-        }
+        bar.color = BarColor;
+        barBackground.color = BarBackGroundColor;
+        barBackground.sprite = BarBackGroundSprite;           
+        
     }
 
 }

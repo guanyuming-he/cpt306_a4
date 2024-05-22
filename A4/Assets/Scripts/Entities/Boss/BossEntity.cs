@@ -35,7 +35,7 @@ public class BossEntity : DamageableEntity
     {
         setInitialHealth(gameHealth);
 
-        throw new System.NotImplementedException("TODO: set up skills.");
+        // TODO: set up skills.
     }
 
     /// <summary>

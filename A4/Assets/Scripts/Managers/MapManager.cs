@@ -70,7 +70,8 @@ public class MapManager : MonoBehaviour
     public GameObject player;
     public GameObject boss;
     public List<GameObject> obstacles;
-    // we don't need to track the skill coin objects.
+    // Track them just from removal. So I don't remove picked up coins from the list.
+    public List<GameObject> skillCoins;
 
     //// These are public because they are prefabs assigned in the editor.
     public GameObject floorPrefab;
@@ -262,11 +263,12 @@ public class MapManager : MonoBehaviour
 
         // instantiate the skill coin at the location
         var p = possibleObsPoints[getNextGenerated()];
-        GameObject.Instantiate
+        var coin = GameObject.Instantiate
         (
             skillCoinPrefab,
             new Vector3(p.x, SKILL_COIN_SPAWN_H, p.y), Quaternion.identity
         );
+        skillCoins.Add(coin);
 
         // Don't forget to do this.
         ++numGeneratedSkillCoins;
@@ -299,11 +301,29 @@ public class MapManager : MonoBehaviour
         bossEntity.onEnterGame();
     }
 
+    /// <summary>
+    /// Destroys everything on the map, including the floor.
+    /// </summary>
+    public void clear()
+    {
+        GameObject.Destroy(player);
+        GameObject.Destroy(boss);
+        foreach (var obs in obstacles)
+        {
+            GameObject.Destroy(obs);
+        }
+        foreach(var coin in skillCoins)
+        {
+            GameObject.Destroy(coin);
+        }
+        GameObject.Destroy(floor);
+    }
+
     /*********************************** Mono ***********************************/
     /// <summary>
     /// Init the floor, player, and boss.
     /// </summary>
-    public void Awake()
+    private void Awake()
     {
         // the surface is centered at the origin and facing up.
         floorSurfacePlane = new Plane(Vector3.up, Vector3.zero);
@@ -320,15 +340,22 @@ public class MapManager : MonoBehaviour
         player = GameObject.Instantiate(playerPrefab, playerStart, Quaternion.identity);
         Utility.MyDebugAssert(player != null, "assign the prefab in the editor.");
 
-        // Do not init obstacles here, as in the training ground it is not needed.
+        // Do not init obstacles and skill coins here, as in the training ground they are not needed.
+        // Instead, on entering a full game, they are created by
+        //createObstacles();
+        //createSkillCoin();
     }
 
     /// <summary>
     /// Nothing to do for now.
     /// </summary>
-    public void Update()
+    private void Update()
     {
         
     }
 
+    private void OnDestroy()
+    {
+        clear();
+    }
 }
