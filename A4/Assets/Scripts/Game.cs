@@ -15,6 +15,8 @@ public sealed class Game : MonoBehaviour
     public MapManager mapMgr;
     // assigned in editor
     public UIManager uiMgr;
+    // assigned in editor (Not a prefab!)
+    public SkillsManager skillsMgr;
 
     // Will always be available before all's ctor
     // (because Game creates all, and in its ctor, the singleton var is assigned first).
@@ -69,6 +71,30 @@ public sealed class Game : MonoBehaviour
     }
 
     /// <summary>
+    /// When either the boss or the player has died.
+    /// </summary>
+    /// <param name="whoDied">
+    /// true: player
+    /// false: boss
+    /// </param>
+    public void gameOver(bool whoDied)
+    {
+        // UI
+        uiMgr.onGameOver(whoDied);
+
+        if(whoDied)
+        // player death
+        {
+            stateMgr.gameOver();
+        }
+        else
+        // boss death
+        {
+            stateMgr.win();
+        }
+    }
+
+    /// <summary>
     /// Transition between the game over menu to the main menu.
     /// </summary>
     public void goHome()
@@ -92,9 +118,11 @@ public sealed class Game : MonoBehaviour
         cameraMgr = GameObject.Instantiate(cameraMgr);
         mapMgr = GameObject.Instantiate(mapMgr);
         uiMgr = GameObject.Instantiate(uiMgr);
+        // skillsMgr is not a prefab.
         Utility.MyDebugAssert(cameraMgr != null, "check this in the editor.");
         Utility.MyDebugAssert(mapMgr != null, "check this in the editor.");
         Utility.MyDebugAssert(uiMgr != null, "check this in the editor.");
+        Utility.MyDebugAssert(skillsMgr != null, "check this in the editor.");
     }
 
     /// <summary>

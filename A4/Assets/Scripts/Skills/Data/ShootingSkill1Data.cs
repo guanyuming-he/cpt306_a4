@@ -8,11 +8,13 @@
 public class ShootSkill1Data : SkillData
 {
     [Header("ShootSkill Gameplay")]
-    public float damage;
+    public float damage = 1.0f;
     public GameObject bulletPrefab;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         Utility.MyDebugAssert(bulletPrefab != null, "bullet cannot be null.");
         Utility.MyDebugAssert(damage > 0.0f, "damage must be positive.");
     }

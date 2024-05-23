@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -232,6 +233,50 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets up the player when the game starts.
+    /// This is used twice --- once for game start, and the other for training ground.
+    /// </summary>
+    private void setUpPlayer()
+    {
+        // skills
+        {
+            PlayerSkills ps = player.GetComponent<PlayerSkills>();
+            Utility.MyDebugAssert(ps != null, "did I forget to attach this script?");
+            ps.prepareSkillsFromIndices(Game.gameSingleton.stateMgr.playerPreparedSkills);
+        }
+    }
+
+    /// <summary>
+    /// Sets up the boss
+    /// This is used twice --- once for game start, and the other for training ground.
+    /// </summary>
+    /// <param name="fullGame">
+    /// ture: full game.
+    /// false: training ground.
+    /// </param>
+    private void setUpBoss(bool fullGame)
+    {
+        // physical body
+        {
+            BossEntity bossEntity = boss.GetComponent<BossEntity>();
+            Utility.MyDebugAssert(bossEntity != null, "did I forget to attach this script?");
+            bossEntity.onEnterTraningGround();
+        }
+
+        // skills
+        {
+            BossSkills bs = boss.GetComponent<BossSkills>();
+            Utility.MyDebugAssert(bs != null, "did I forget to attach this script?");
+            // on the training ground the boss has no skills.
+            // in the full game the boss has all the skills.
+            bs.prepareSkills
+            (
+                fullGame ? Game.gameSingleton.skillsMgr.bossSkills : new List<ConcreteSkill>()
+            );
+        }
+    }
+
     /*********************************** Mutators ***********************************/
 
     /// <summary>
@@ -281,9 +326,10 @@ public class MapManager : MonoBehaviour
     public void enterTrainingGround()
     {
         // set up the boss
-        BossEntity bossEntity = boss.gameObject.GetComponent<BossEntity>();
-        Utility.MyDebugAssert(bossEntity != null, "did I forget to attach this script?");
-        bossEntity.onEnterTraningGround();
+        setUpBoss(false);
+
+        // set up the player
+        setUpPlayer();
     }
 
     /// <summary>
@@ -292,13 +338,15 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void enterFullGame()
     {
+        // the objects used in the full game.
         createObstacles();
         createSkillCoin();
 
         // set up the boss
-        BossEntity bossEntity = boss.gameObject.GetComponent<BossEntity>();
-        Utility.MyDebugAssert(bossEntity != null, "did I forget to attach this script?");
-        bossEntity.onEnterGame();
+        setUpBoss(true);
+
+        // set up the player
+        setUpPlayer();
     }
 
     /// <summary>

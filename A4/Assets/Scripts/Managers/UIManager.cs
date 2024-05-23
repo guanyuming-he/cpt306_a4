@@ -3,6 +3,7 @@
 #if PERSISTENT_UI_LISTENERS
 using UnityEditor.Events;
 #endif
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +32,7 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverMenu;
     public GameObject inGameMenu;
     public GameObject optionsMenu;
+    public GameObject skillsMenu;
 
     /*********************************** Private helpers ***********************************/
     /// <summary>
@@ -42,11 +44,13 @@ public class UIManager : MonoBehaviour
         this.gameOverMenu = GameObject.Instantiate(gameOverMenu);
         this.inGameMenu = GameObject.Instantiate(inGameMenu);
         this.optionsMenu = GameObject.Instantiate(optionsMenu);
+        this.skillsMenu = GameObject.Instantiate(skillsMenu);
 
         Utility.MyDebugAssert(mainMenu != null, "check UIManager prefabs");
         Utility.MyDebugAssert(gameOverMenu != null, "check UIManager prefabs");
         Utility.MyDebugAssert(inGameMenu != null, "check UIManager prefabs");
         Utility.MyDebugAssert(optionsMenu != null, "check UIManager prefabs");
+        Utility.MyDebugAssert(skillsMenu != null, "check UIManager prefabs");
     }
 
     /// <summary>
@@ -99,13 +103,15 @@ public class UIManager : MonoBehaviour
             var btns = mainMenu.GetComponentsInChildren<Button>();
 
             // start btn
-            btns[0].onClick.AddListener( () => { Game.gameSingleton.startFullGame(); });
+            btns[0].onClick.AddListener(() => { Game.gameSingleton.startFullGame(); });
             // training btn
             btns[1].onClick.AddListener(() => { Game.gameSingleton.startTrainingGround(); });
+            // skills btn
+            btns[2].onClick.AddListener(() => { switchMenu(mainMenu, skillsMenu); });
             // options btn
-            btns[2].onClick.AddListener(() => { switchMenu(mainMenu, optionsMenu); });
+            btns[3].onClick.AddListener(() => { switchMenu(mainMenu, optionsMenu); });
             // exit btn
-            btns[3].onClick.AddListener(() => { Game.gameSingleton.exitGame(); });
+            btns[4].onClick.AddListener(() => { Game.gameSingleton.exitGame(); });
         }
 
         // in game menu.
@@ -124,7 +130,11 @@ public class UIManager : MonoBehaviour
             // go back button
             btns[0].onClick.AddListener(() => Game.gameSingleton.goHome());
         }
-        
+
+        // skills menu
+        {
+            // nothing. it is controlled by a dedicated script.
+        }
 #endif
     }
 
@@ -138,6 +148,7 @@ public class UIManager : MonoBehaviour
         mainMenu.SetActive(false);
         optionsMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        skillsMenu.SetActive(false);
         // inGameMenu.SetActive(false);
     }
 
@@ -156,6 +167,33 @@ public class UIManager : MonoBehaviour
     public void onGameStart()
     {
         switchMenu(mainMenu, inGameMenu);
+    }
+
+    /// <summary>
+    /// When either the boss or the player has died.
+    /// </summary>
+    /// <param name="whoDied">
+    /// true: player
+    /// false: boss
+    /// </param>
+    public void onGameOver(bool whoDied)
+    {
+        // set the title accordingly.
+        TMP_Text title = gameOverMenu.GetComponentInChildren<TMP_Text>();
+        Utility.MyDebugAssert(title != null, "should have a title.");
+        if (whoDied)
+        // the player died.
+        {
+            title.text = "You Lost.";
+        }
+        else
+        // the boss died.
+        {
+            title.text = "You Won.";
+        }
+
+        // switch the menu
+        switchMenu(inGameMenu, gameOverMenu);
     }
 
     /*********************************** Mono ***********************************/

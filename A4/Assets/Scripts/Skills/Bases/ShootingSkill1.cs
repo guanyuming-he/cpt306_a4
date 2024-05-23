@@ -11,12 +11,17 @@ public class ShootingSkill1 : InstantaneousSkill
 
     /*********************************** From ConcreteSkill ***********************************/
 
+    /// <summary>
+    /// Overridden to set up shootingSKillData
+    /// </summary>
     protected override void setData()
     {
         base.setData();
 
         shootingSKillData = skillData as ShootSkill1Data;
         Utility.MyDebugAssert(shootingSKillData != null, "set the correct skill data type!");
+        // unnecessary to check the fields of it here,
+        // because they are checked in its Awake().
     }
 
     /// <summary>
@@ -27,10 +32,11 @@ public class ShootingSkill1 : InstantaneousSkill
     /// <param name="target">he who shoots the bullet</param>
     public override void onReleased(Vector3 position, GameObject target)
     {
-        GameObject bullet = null;
+        GameObject bullet;
+        Vector3 direction;
         // spawn a bullet at the position, with the correct direction.
         {
-            Vector3 direction = target.transform.position - position;
+            direction = target.transform.position - position;
             // In case this happens...
             if (direction == Vector3.zero)
             {
@@ -52,8 +58,7 @@ public class ShootingSkill1 : InstantaneousSkill
             Utility.MyDebugAssert(bulletScript != null, "should have the bullet script.");
 
             bulletScript.damage = shootingSKillData.damage;
-            
+            bulletScript.direction = direction.normalized;
         }
-        
     }
 }

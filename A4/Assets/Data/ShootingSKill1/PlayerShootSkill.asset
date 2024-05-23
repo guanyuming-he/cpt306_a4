@@ -15,7 +15,8 @@ MonoBehaviour:
   cooldown: 1
   cost: 1
   level: 0
-  skillIconUI: {fileID: 1651562775563698708, guid: 572e147b0bd13bb42ba03e004eb881fc, type: 3}
+  skillIconSprite: {fileID: 21300000, guid: 37de44bcb59b8174497def1957cc490b, type: 3}
+  skillName: ShootSkill1
   description: Shoots out a bullet that flies in a straight line.
   damage: 1.5
   bulletPrefab: {fileID: 6548890450533138939, guid: d486d6a2ca49e1e4e927fa72b8e00493, type: 3}

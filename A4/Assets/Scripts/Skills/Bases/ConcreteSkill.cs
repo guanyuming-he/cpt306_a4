@@ -62,6 +62,33 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
         }
     }
 
+    /// <summary>
+    /// Release the skill. For instantaneous skills, call this directly.
+    /// For those that are not instantaneous, call this when the releasing is finished.
+    /// </summary>
+    /// <param name="position">
+    /// the position where the skill is to be released.
+    /// may or may not be used.
+    /// </param>
+    /// <param name="target">the target of the skill, can be null if not used.</param>
+    /// <exception cref="System.InvalidOperationException">
+    /// If it cannot be released now.
+    /// </exception>
+    /// 
+    public void release(Vector3 position, GameObject target)
+    {
+        if (!canReleaseSkill())
+        {
+            throw new System.InvalidOperationException();
+        }
+
+        // perform the skill's effect
+        onReleased(position, target);
+
+        // start the cooldown timer
+        cooldownTimer.start();
+    }
+
     /*********************************** Interface ISkill ***********************************/
 
     /// <returns>true if it is not in cooldown, or if it is not current releasing a skill.</returns>

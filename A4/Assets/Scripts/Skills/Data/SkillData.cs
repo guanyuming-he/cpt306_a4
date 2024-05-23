@@ -11,14 +11,24 @@ public abstract class SkillData : ScriptableObject
 {
     /*********************************** Fields ***********************************/
     [Header("Gameplay")]
-    public float cooldown;
+    public float cooldown = 1.0f;
 
     [Header("Skill Properties")]
-    public uint cost;
+    public uint cost = 1;
     public ConcreteSkill.Level level;
 
-    // A UI element that displays the skill's icon.
-    public GameObject skillIconUI;
+    // An image of the skill.
+    public Sprite skillIconSprite;
+    public string skillName;
     public string description;
+
+    /// <summary>
+    /// Check the data assigned.
+    /// </summary>
+    protected virtual void Awake()
+    {
+        Utility.MyDebugAssert(cooldown >= 0.0f, "cooldown cannot be negative.");
+        // the icon can be empty for boss.
+    }
 
 }

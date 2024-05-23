@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEditor.Playables;
 
 using UnityEngine.SocialPlatforms.Impl;
@@ -43,6 +45,10 @@ public class StateManager
 
     private States state;
     private uint numSkillCoins;
+    // set of indices into playerSkills.
+    public HashSet<int> playerOwnedSkills;
+    // sync this to the player when the game starts
+    public HashSet<int> playerPreparedSkills;
 
     /*********************************** METHODS ***********************************/
 
@@ -87,6 +93,58 @@ public class StateManager
 #if UNITY_EDITOR
         UnityEngine.Debug.Log(String.Format("Picked up {0} skill coin(s), and now we have {1}.", num, numSkillCoins));
 #endif
+    }
+
+    /// <param name="skillInd"></param>
+    /// <returns>true iff player has the skill</returns>
+    public bool hasPlayerSkill(int skillInd)
+    {
+        return playerOwnedSkills.Contains(skillInd);
+    }
+
+    /// <summary>
+    /// Purchases the skill for the player.
+    /// </summary>
+    /// <param name="skillInd">index into the skillsMgr.playerSkills</param>
+    /// <returns>
+    /// 1. true if the purchase is successful or if the skill was already owned.
+    /// 2. false if the purchase failed (because the number of skill coins is insufficient).
+    /// </returns>
+    public bool buySkill(int skillInd)
+    {
+        if(hasPlayerSkill(skillInd))
+        {
+            // already has the skill
+            return true;
+        }
+
+        var skill = Game.gameSingleton.skillsMgr.playerSkills[skillInd];
+        if (useSkillCoins(skill.skillData.cost))
+        // can purchase
+        {
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log(String.Format("Purchased skill {0}.", skillInd));
+#endif
+            playerOwnedSkills.Add(skillInd);
+            return true;
+        }
+        else
+        // cannot purchase
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Called in the skill menu
+    /// </summary>
+    /// <param name="skillInd"></param>
+    public void prepareSkill(int skillInd)
+    {
+        Utility.MyDebugAssert(hasPlayerSkill(skillInd), "player is preparing a skill he has not learnt. Fix this.");
+
+        // do nothing if already prepared.
+        playerPreparedSkills.Add(skillInd);
     }
 
     /// <summary>
