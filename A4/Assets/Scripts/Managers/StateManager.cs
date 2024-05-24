@@ -10,7 +10,9 @@ using UnityEngine.SocialPlatforms.Impl;
 /// The state manager manages the state of the game.
 /// It is a singleton class.
 /// 
-/// Its various methods provide means of state transitions.
+/// Its various methods provide means of state transitions
+/// and ways to change the game's states.
+/// It also handles saving and loading the game states to/from a local save file.
 /// </summary>
 public class StateManager
 {
@@ -39,6 +41,9 @@ public class StateManager
     public StateManager()
     {
         state = States.MAIN_UI;
+
+        // load the game from save file.
+        loadStateFromFile();
     }
 
     /*********************************** FIELDS ***********************************/
@@ -157,15 +162,58 @@ public class StateManager
         {
             using (StreamReader sr = File.OpenText(STATE_FILE_PATH))
             {
-                String numCoinsLine = sr.ReadLine();
-                try
+                // skill coins (a line that contains the number)
                 {
-                    numSkillCoins = uint.Parse(numCoinsLine);
+                    string numCoinsLine = sr.ReadLine();
+                    try
+                    {
+                        numSkillCoins = uint.Parse(numCoinsLine);
+                    }
+                    catch (Exception)
+                    {
+                        // The save file is corrupted.
+                        numSkillCoins = 0;
+                    }
                 }
-                catch (Exception)
+
+                // owned skills (a line, indices separated by ,)
                 {
-                    // The save file is corrupted.
-                    numSkillCoins = 0;
+                    string ownedSkillsLine = sr.ReadLine();
+                    string[] ownedIndexStrings = ownedSkillsLine.Split(',');
+                    foreach(string ownedIndexStr in ownedIndexStrings)
+                    {
+                        try
+                        {
+                            int ownedInd = int.Parse(ownedIndexStr);
+                            playerOwnedSkills.Add(ownedInd);
+                        }
+                        catch (Exception)
+                        {
+                            // The save file is corrupted.
+                            // the player can always have the first skill.
+                            playerOwnedSkills.Add(0);
+                        }
+                    }
+                }
+
+                // prepared skills (a line, indices separated by ,)
+                {
+                    string preparedSkillsLine = sr.ReadLine();
+                    string[] preparedIndexStrings = preparedSkillsLine.Split(',');
+                    foreach (string preparedIndexStr in preparedIndexStrings)
+                    {
+                        try
+                        {
+                            int preparedInd = int.Parse(preparedIndexStr);
+                            playerPreparedSkills.Add(preparedInd);
+                        }
+                        catch (Exception)
+                        {
+                            // The save file is corrupted.
+                            // The playe can always prepare the first skill.
+                            playerPreparedSkills.Add(0);
+                        }
+                    }
                 }
             }
         }
@@ -173,6 +221,8 @@ public class StateManager
         else
         {
             numSkillCoins = 0;
+            playerOwnedSkills = new HashSet<int>();
+            playerPreparedSkills = new HashSet<int>();
         }
     }
 
@@ -185,7 +235,22 @@ public class StateManager
         // Creates or opens a file for writing UTF-8 encoded text. If the file already exists, its contents are replaced.
         using (StreamWriter sw = File.CreateText(STATE_FILE_PATH))
         {
+            // skill coins line
             sw.WriteLine(numCoinsLine);
+            // owned skills line
+            string ownedSkillsLine = "";
+            foreach(int i in playerOwnedSkills)
+            {
+                ownedSkillsLine += string.Format("{0},", i);
+            }
+            sw.WriteLine(ownedSkillsLine);
+            // prepared skills line
+            string preparedSkillsLine = "";
+            foreach (int i in playerPreparedSkills)
+            {
+                preparedSkillsLine += string.Format("{0},", i);
+            }
+            sw.WriteLine(preparedSkillsLine);
         }
     }
 
@@ -210,6 +275,7 @@ public class StateManager
         Utility.MyDebugAssert(state == States.PLAYING);
 
         state = States.MAIN_UI;
+        saveStateToFile();
     }
 
     /// <summary>
@@ -240,6 +306,7 @@ public class StateManager
         Utility.MyDebugAssert(state == States.VICTORY || state == States.GAME_OVER);
 
         state = States.MAIN_UI;
+        saveStateToFile();
     }
 
 }

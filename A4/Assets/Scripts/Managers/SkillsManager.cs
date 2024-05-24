@@ -10,6 +10,9 @@ using UnityEngine;
 /// 
 /// These things are better stored and managed in a database.
 /// This class, SkillsManager, is the database for the job.
+/// 
+/// Note: the data here are immutable once the game is finished.
+/// Therefore, they are NOT part of the game's states and are not handled by stateMgr.
 /// </summary>
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SkillsManager", order = 1)]
 public sealed class SkillsManager : ScriptableObject

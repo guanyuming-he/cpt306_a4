@@ -15,6 +15,15 @@ public class SkillMenuUI : MonoBehaviour
     public GameObject skillItemPrefab;
 
     /// <summary>
+    /// Update other elements that are not the skill items
+    /// </summary>
+    private void updateOtherElements()
+    {
+        statusText.text = string.Format("Skill Coins: {0}", Game.gameSingleton.stateMgr.getNumSkillCoins());
+        // set the prepared skills text
+    }
+
+    /// <summary>
     /// Fill in skills and set up all the ui elements
     /// </summary>
     void Start()
@@ -34,12 +43,14 @@ public class SkillMenuUI : MonoBehaviour
         }
 
         // other UI elements
-        throw new System.NotImplementedException();
+        {
+            updateOtherElements();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        updateOtherElements();
     }
 }
