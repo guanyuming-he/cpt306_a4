@@ -54,7 +54,17 @@ public class Bullet : Entity
     /// </summary>
     protected override void Update()
     {
+        // can use velocity as it is dynamic. 
         bulletRb.velocity = speed * direction.normalized;
+
+        // destroy out of bound bullets
+        if 
+        (transform.position.x < -.5f * 31.0f || transform.position.x > .5f * 31.0f ||
+            transform.position.z < -.5f * 31.0f || transform.position.z > .5f * 31.0f
+        )
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(UnityEngine.Collision collision)
@@ -64,6 +74,9 @@ public class Bullet : Entity
         var entity = other.GetComponent<Entity>();
         if(entity == null)
         {
+            // hit some unknown thing.
+            // destroy myself any way.
+            GameObject.Destroy(gameObject);
             return;
         }
 
@@ -83,6 +96,7 @@ public class Bullet : Entity
         {
             // destroy myself
             GameObject.Destroy(gameObject);
+            return;
         }
 
         // Now I have hit a opponent.

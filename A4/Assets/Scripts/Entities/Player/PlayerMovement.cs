@@ -24,7 +24,7 @@ public sealed class PlayerMovement : MonoBehaviour
     /// <exception cref="System.ArgumentException">
     /// if the mouse click point is not on the plane
     /// </exception>
-    private static Vector3 mouseClickToFloorPosition()
+    public static Vector3 mouseClickToFloorPosition()
     {
         Camera cam = Game.gameSingleton.cameraMgr.getMainCamera();
         Utility.MyDebugAssert(cam != null);

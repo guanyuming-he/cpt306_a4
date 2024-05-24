@@ -167,6 +167,10 @@ public class UIManager : MonoBehaviour
     public void onGameStart()
     {
         switchMenu(mainMenu, inGameMenu);
+
+        // populate the skill icons.
+        InGameUIScript inGameUIScript = inGameMenu.GetComponent<InGameUIScript>();
+        inGameUIScript.populateSkillIcons();
     }
 
     /// <summary>
@@ -219,5 +223,14 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnDestroy()
+    {
+        GameObject.Destroy(mainMenu);
+        GameObject.Destroy(optionsMenu);
+        GameObject.Destroy(skillsMenu);
+        GameObject.Destroy(optionsMenu);
+        GameObject.Destroy(inGameMenu);
     }
 }

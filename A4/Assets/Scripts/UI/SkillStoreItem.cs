@@ -50,7 +50,7 @@ public class SkillStoreItem : MonoBehaviour
             else if(purchaseBtnText.text == "Prepare")
             // bought. Prepare the skill
             {
-                throw new System.NotImplementedException();
+                Game.gameSingleton.stateMgr.prepareSkill(skillInd);
             }
 
         });

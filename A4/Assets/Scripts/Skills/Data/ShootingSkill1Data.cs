@@ -11,6 +11,12 @@ public class ShootSkill1Data : SkillData
     public float damage = 1.0f;
     public GameObject bulletPrefab;
 
+    public ShootSkill1Data()
+    {
+        level = ConcreteSkill.Level.LEVEL_1;
+        skillName = "ShootingSkill (Lv.1)";
+    }
+
     protected override void Awake()
     {
         base.Awake();

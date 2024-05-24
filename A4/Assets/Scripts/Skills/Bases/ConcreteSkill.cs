@@ -45,6 +45,17 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
         return cooldownTimer.getState() == Timer.State.RUNNING;
     }
 
+    /// <returns>
+    /// the progress of the cooldown
+    /// 0: just started.
+    /// 1: finished.
+    /// </returns>
+    public float getCooldownProgress()
+    {
+        return (cooldownTimer != null && isInCooldown()) ?
+           cooldownTimer.getProgress() : 1.0f;
+    }
+
     /*********************************** Mutators ***********************************/
     /// <summary>
     /// Init the skill with the data set in editor.
@@ -85,8 +96,8 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
         // perform the skill's effect
         onReleased(position, target);
 
-        // start the cooldown timer
-        cooldownTimer.start();
+        // restart the cooldown timer
+        cooldownTimer.restart();
     }
 
     /*********************************** Interface ISkill ***********************************/

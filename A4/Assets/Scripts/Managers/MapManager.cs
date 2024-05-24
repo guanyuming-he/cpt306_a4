@@ -261,7 +261,14 @@ public class MapManager : MonoBehaviour
         {
             BossEntity bossEntity = boss.GetComponent<BossEntity>();
             Utility.MyDebugAssert(bossEntity != null, "did I forget to attach this script?");
-            bossEntity.onEnterTraningGround();
+            if(fullGame)
+            {
+                bossEntity.onEnterGame();
+            }
+            else
+            {
+                bossEntity.onEnterTraningGround();
+            }
         }
 
         // skills
@@ -272,7 +279,7 @@ public class MapManager : MonoBehaviour
             // in the full game the boss has all the skills.
             bs.prepareSkills
             (
-                fullGame ? Game.gameSingleton.skillsMgr.bossSkills : new List<ConcreteSkill>()
+                fullGame ? Game.gameSingleton.bossSkills : new List<ConcreteSkill>()
             );
         }
     }

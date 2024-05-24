@@ -95,6 +95,12 @@ public class Timer
 
     public float getTimeElapsed() { return timeElapsed; }
 
+    /// <returns>the progress of the fire process.</returns>
+    public float getProgress()
+    {
+        return timeElapsed / fireTime;
+    }
+
     public State getState() { return state; }
 
     /*********************************** Mutators ***********************************/
@@ -113,7 +119,10 @@ public class Timer
         if (timeElapsed >= fireTime)
         {
             state = State.FIRED;
-            onFireCallback();
+            if (onFireCallback != null)
+            {
+                onFireCallback();
+            }
 
             if (loop)
             {

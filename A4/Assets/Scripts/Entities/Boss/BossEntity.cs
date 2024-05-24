@@ -24,7 +24,7 @@ public class BossEntity : DamageableEntity
 
     public override void onDeath()
     {
-        throw new System.NotImplementedException();
+        Game.gameSingleton.gameOver(false);
     }
 
     /*********************************** Mutators ***********************************/

@@ -29,7 +29,7 @@ public class PlayerEntity : DamageableEntity
 
     public override void onDeath()
     {
-        throw new System.NotImplementedException();
+        Game.gameSingleton.gameOver(true);
     }
 
     /*********************************** Mono ***********************************/

@@ -16,7 +16,7 @@ MonoBehaviour:
   cost: 1
   level: 0
   skillIconSprite: {fileID: 21300000, guid: 37de44bcb59b8174497def1957cc490b, type: 3}
-  skillName: ShootSkill1
+  skillName: ShootingSkill (Lv.1)
   description: Shoots out a bullet that flies in a straight line.
   damage: 1
   bulletPrefab: {fileID: 6548890450533138939, guid: 3e146b87f97866447a34da94d6d88190, type: 3}

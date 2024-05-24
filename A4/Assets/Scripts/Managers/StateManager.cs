@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Playables;
 
@@ -41,6 +42,9 @@ public class StateManager
     public StateManager()
     {
         state = States.MAIN_UI;
+
+        playerOwnedSkills = new HashSet<int>();
+        playerPreparedSkills = new HashSet<int>();
 
         // load the game from save file.
         loadStateFromFile();
@@ -110,7 +114,7 @@ public class StateManager
     /// <summary>
     /// Purchases the skill for the player.
     /// </summary>
-    /// <param name="skillInd">index into the skillsMgr.playerSkills</param>
+    /// <param name="skillInd">index into the playerSkills</param>
     /// <returns>
     /// 1. true if the purchase is successful or if the skill was already owned.
     /// 2. false if the purchase failed (because the number of skill coins is insufficient).
@@ -123,7 +127,7 @@ public class StateManager
             return true;
         }
 
-        var skill = Game.gameSingleton.skillsMgr.playerSkills[skillInd];
+        var skill = Game.gameSingleton.playerSkills[skillInd];
         if (useSkillCoins(skill.skillData.cost))
         // can purchase
         {
@@ -147,9 +151,25 @@ public class StateManager
     public void prepareSkill(int skillInd)
     {
         Utility.MyDebugAssert(hasPlayerSkill(skillInd), "player is preparing a skill he has not learnt. Fix this.");
-
-        // do nothing if already prepared.
-        playerPreparedSkills.Add(skillInd);
+        
+        // only 4 can be prepared.
+        // 1. if it is already prepared, then do nothing.
+        if(playerPreparedSkills.Contains(skillInd))
+        {
+            return;
+        }
+        // 2. not prepared.
+        // 2.1 if less than 4 are prepared, then just add it.
+        if(playerPreparedSkills.Count < 4)
+        {
+            playerPreparedSkills.Add(skillInd);
+        }
+        // 2.2 otherwise, remove the first one, and add it.
+        else
+        {
+            playerPreparedSkills.Remove(playerPreparedSkills.First());
+            playerPreparedSkills.Add(skillInd);
+        }
     }
 
     /// <summary>
@@ -190,8 +210,7 @@ public class StateManager
                         catch (Exception)
                         {
                             // The save file is corrupted.
-                            // the player can always have the first skill.
-                            playerOwnedSkills.Add(0);
+                            // do nothing
                         }
                     }
                 }
@@ -210,8 +229,7 @@ public class StateManager
                         catch (Exception)
                         {
                             // The save file is corrupted.
-                            // The playe can always prepare the first skill.
-                            playerPreparedSkills.Add(0);
+                            // do nothing
                         }
                     }
                 }
@@ -268,7 +286,7 @@ public class StateManager
     }
 
     /// <summary>
-    /// When P, and the player played the Exit button.
+    /// When P, and the player played the Exit key.
     /// </summary>
     public void exitGame()
     {

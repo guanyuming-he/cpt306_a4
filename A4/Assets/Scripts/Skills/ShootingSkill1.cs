@@ -32,11 +32,15 @@ public class ShootingSkill1 : InstantaneousSkill
     /// <param name="target">he who shoots the bullet</param>
     public override void onReleased(Vector3 position, GameObject target)
     {
+        // make the bullet horizontally straight.
+        position.y = target.transform.position.y; 
+
+        // the instantiated bullet.
         GameObject bullet;
         Vector3 direction;
         // spawn a bullet at the position, with the correct direction.
         {
-            direction = target.transform.position - position;
+            direction = position - target.transform.position; 
             // In case this happens...
             if (direction == Vector3.zero)
             {
@@ -46,7 +50,7 @@ public class ShootingSkill1 : InstantaneousSkill
             bullet = GameObject.Instantiate
             (
                 shootingSKillData.bulletPrefab,
-                position,
+                target.transform.position,
                 Quaternion.LookRotation(direction)
             );
         }

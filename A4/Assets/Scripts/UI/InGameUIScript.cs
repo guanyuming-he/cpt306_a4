@@ -17,6 +17,31 @@ public class InGameUIScript : MonoBehaviour
     HealthBar playerHealthBar;
     HealthBar bossHealthBar;
 
+    public RectTransform skillIconsPanel;
+    public GameObject skillInGameUIPrefab;
+    
+    /*********************************** Methods ***********************************/
+
+    /// <summary>
+    /// Populate a skill icon UI for each prepared skill of the player.
+    /// Called by the UI manager when a game has started.
+    /// </summary>
+    public void populateSkillIcons()
+    {
+        var preparedSkills = Game.gameSingleton.mapMgr.player.GetComponent<PlayerSkills>().getPreparedSkills();
+
+        for(int i = 0; i < preparedSkills.Count; ++i)
+        {
+            // skill number starts from 1.
+            int skillNum = i + 1;
+
+            GameObject skillIcon = GameObject.Instantiate(skillInGameUIPrefab, skillIconsPanel);
+            SkillInGameIcon skillIconScript = skillIcon.GetComponent<SkillInGameIcon>();
+
+            skillIconScript.bindToSkill(skillNum, preparedSkills[i]);
+        }
+    }
+
     /// <summary>
     /// 1. The player and the boss are created by the MapManager
     /// in its Awake().
@@ -39,6 +64,8 @@ public class InGameUIScript : MonoBehaviour
         Utility.MyDebugAssert(healthBars.Length == 2, "Should have two health bars in the menu.");
         playerHealthBar = healthBars[0];
         bossHealthBar = healthBars[1];
+
+        Utility.MyDebugAssert(skillInGameUIPrefab != null, "assign this in the editor.");
     }
 
     /// <summary>

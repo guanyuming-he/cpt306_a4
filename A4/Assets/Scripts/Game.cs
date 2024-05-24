@@ -15,8 +15,9 @@ public sealed class Game : MonoBehaviour
     public MapManager mapMgr;
     // assigned in editor
     public UIManager uiMgr;
-    // assigned in editor (Not a prefab!)
-    public SkillsManager skillsMgr;
+
+    public List<ConcreteSkill> playerSkills;
+    public List<ConcreteSkill> bossSkills;
 
     // Will always be available before all's ctor
     // (because Game creates all, and in its ctor, the singleton var is assigned first).
@@ -55,9 +56,13 @@ public sealed class Game : MonoBehaviour
 
     /// <summary>
     /// When the user selects "exit" on the main UI
+    /// or when the user presses the exit key during play
     /// </summary>
     public void exitGame()
     {
+        // save the game
+        stateMgr.saveStateToFile();
+
         // Destroy all the Mono managers
         GameObject.Destroy(uiMgr);
         GameObject.Destroy(cameraMgr);
@@ -104,6 +109,22 @@ public sealed class Game : MonoBehaviour
         UIManager.switchMenu(uiMgr.gameOverMenu, uiMgr.mainMenu);
     }
 
+    /*********************************** Private helpers ***********************************/
+
+    /// <summary>
+    /// Skill prefabs must be instantiated before they can be used.
+    /// Hence this method.
+    /// </summary>
+    private void initSkills()
+    {
+        // Can't use a prefab unless I instantiate them.
+        for(int i = 0; i < playerSkills.Count; ++i)
+        {
+            playerSkills[i] = GameObject.Instantiate(playerSkills[i]);
+            bossSkills[i] = GameObject.Instantiate(bossSkills[i]);
+        }
+    }
+
     /*********************************** Mono ***********************************/
 
     /// <summary>
@@ -118,11 +139,9 @@ public sealed class Game : MonoBehaviour
         cameraMgr = GameObject.Instantiate(cameraMgr);
         mapMgr = GameObject.Instantiate(mapMgr);
         uiMgr = GameObject.Instantiate(uiMgr);
-        // skillsMgr is not a prefab.
         Utility.MyDebugAssert(cameraMgr != null, "check this in the editor.");
         Utility.MyDebugAssert(mapMgr != null, "check this in the editor.");
         Utility.MyDebugAssert(uiMgr != null, "check this in the editor.");
-        Utility.MyDebugAssert(skillsMgr != null, "check this in the editor.");
     }
 
     /// <summary>
@@ -130,6 +149,22 @@ public sealed class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        initSkills();
         uiMgr.mainMenu.SetActive(true);
+    }
+
+    /// <summary>
+    /// 1. See if the player presses the exit key during play
+    /// </summary>
+    private void Update()
+    {
+        // 1.
+        if (stateMgr.getState() == StateManager.States.PLAYING)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                exitGame();
+            }
+        }
     }
 }

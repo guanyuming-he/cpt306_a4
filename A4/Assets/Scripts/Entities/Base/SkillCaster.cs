@@ -9,7 +9,7 @@ public class SkillCaster : MonoBehaviour
 {
     /*********************************** Fields ***********************************/
     // He can select from these spells.
-    private List<ConcreteSkill> preparedSkills;
+    protected List<ConcreteSkill> preparedSkills;
     // He can only cast this skill.
     // if this is out of the range, then it means he has not selected a skill yet.
     private int indSelectedSkill;
@@ -24,6 +24,11 @@ public class SkillCaster : MonoBehaviour
     }
 
     /*********************************** Observers ***********************************/
+
+    public IReadOnlyList<ConcreteSkill> getPreparedSkills()
+    {
+        return preparedSkills.AsReadOnly();
+    }
 
     /// <summary>
     /// Used more than once, hence this method.
@@ -108,7 +113,7 @@ public class SkillCaster : MonoBehaviour
     /// Note: Do NOT use this to deselect skills (so that none is selected).
     /// Instead, use deselectSkill().
     /// </summary>
-    /// <param name="indNewSkill">index of the new skill.</param>
+    /// <param name="indNewSkill">index of the new skill, into the preparedSkills list.</param>
     /// <exception cref="System.ArgumentException">
     /// if the index is out of the prepared range.
     /// </exception>

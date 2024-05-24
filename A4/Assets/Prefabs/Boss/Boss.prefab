@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 4128941079925964175}
   - component: {fileID: -1072574096400318511}
   - component: {fileID: 3780667011521854983}
-  m_Layer: 0
+  - component: {fileID: 6970556394902163402}
+  m_Layer: 7
   m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,3 +138,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameHealth: 100
   trainingGroundHealth: 1000
+--- !u!114 &6970556394902163402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7726450004699612137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97b9c3ec2fdf734494c817fec63697c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

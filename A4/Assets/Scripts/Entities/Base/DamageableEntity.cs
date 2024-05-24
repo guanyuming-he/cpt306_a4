@@ -49,14 +49,26 @@ public abstract class DamageableEntity : Entity, IDamageable
         return 100.0f * health / maxHealth;
     }
 
+    /*********************************** Mutators ***********************************/
+    /// <summary>
+    /// When the entity is healed. Can be overridden to display effects.
+    /// </summary>
+    /// <param name="healedAmount"></param>
+    public virtual void onHealed(float healedAmount)
+    {
+        Utility.MyDebugAssert(healedAmount > 0.0f, "can only heal a positive amount.");
+        health += healedAmount;
+    }
+
     /*********************************** From IDamageable ***********************************/
 
     /// <summary>
-    /// Leave it virtual so that subclasses may override it.
+    /// Leave it virtual so that subclasses may override it to display effects.
     /// </summary>
     /// <param name="dmg"></param>
     public virtual void onTakenDamage(float dmg)
     {
+        Utility.MyDebugAssert(dmg >= 0.0f, "can only have a nonnegative damage.");
         health -= dmg;
 
         if ((this as IDamageable).dead())

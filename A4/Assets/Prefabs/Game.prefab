@@ -47,4 +47,11 @@ MonoBehaviour:
   cameraMgr: {fileID: 7339478557797958357, guid: 1051116f869c6e84786e70cf26095937, type: 3}
   mapMgr: {fileID: 3448667237582304475, guid: 4e1ddd689fa1cc244851636a2442f3e1, type: 3}
   uiMgr: {fileID: 7032764078651254781, guid: 407e5202dd82f70458421d675ca565a5, type: 3}
-  skillsMgr: {fileID: 11400000, guid: eb42bc975b65d7746996db179e451c8f, type: 2}
+  playerSkills:
+  - {fileID: 1768783660007948610, guid: b626dea2c34999a46b2f669b0c1b8a87, type: 3}
+  - {fileID: 1646861386695822208, guid: aa66bc9021db89047a68c22f3cd19a72, type: 3}
+  - {fileID: 1633219861373643261, guid: 2d46453d7d9ce6c41812e33c601fee80, type: 3}
+  bossSkills:
+  - {fileID: 1768783660007948610, guid: 8056f4f54ff9c3549a7cfd572cca277f, type: 3}
+  - {fileID: 1646861386695822208, guid: 480345a5a7cd0864494ebbe0d96f3ec1, type: 3}
+  - {fileID: 1633219861373643261, guid: d07804ce1cdcb7a40a8b876de6fe8b92, type: 3}

@@ -17,6 +17,4 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SkillsManager", order = 1)]
 public sealed class SkillsManager : ScriptableObject
 {
-    public List<ConcreteSkill> playerSkills;
-    public List<ConcreteSkill> bossSkills;
 }
