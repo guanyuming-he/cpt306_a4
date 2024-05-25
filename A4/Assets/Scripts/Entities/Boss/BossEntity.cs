@@ -25,6 +25,8 @@ public class BossEntity : DamageableEntity
     public override void onDeath()
     {
         Game.gameSingleton.gameOver(false);
+
+        UnityEngine.GameObject.Destroy(gameObject);
     }
 
     /*********************************** Mutators ***********************************/

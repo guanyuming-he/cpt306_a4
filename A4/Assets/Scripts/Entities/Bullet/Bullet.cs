@@ -22,6 +22,11 @@ public class Bullet : Entity
         return whichSide;
     }
 
+    protected virtual void onHitDamageable(DamageableEntity de)
+    {
+        de.onTakenDamage(damage);
+    }
+
     /*********************************** Mono ***********************************/
     /// <summary>
     /// Check its data
@@ -59,13 +64,14 @@ public class Bullet : Entity
 
         // destroy out of bound bullets
         if 
-        (transform.position.x < -.5f * 31.0f || transform.position.x > .5f * 31.0f ||
-            transform.position.z < -.5f * 31.0f || transform.position.z > .5f * 31.0f
+        (transform.position.x < -.5f * 50.0f || transform.position.x > .5f * 50.0f ||
+            transform.position.z < -.5f * 50.0f || transform.position.z > .5f * 50.0f 
         )
         {
             Destroy(gameObject);
         }
     }
+
 
     private void OnCollisionEnter(UnityEngine.Collision collision)
     {
@@ -100,11 +106,11 @@ public class Bullet : Entity
         }
 
         // Now I have hit a opponent.
-        var damageable = entity as IDamageable;
+        var damageable = entity as DamageableEntity;
         // If the entity can be damaged
         if(damageable != null)
         {
-            damageable.onTakenDamage(damage);
+            onHitDamageable(damageable);
         }
         // destroy myself regardless of whether the target can be hit (damaged) or not.
         GameObject.Destroy(gameObject);

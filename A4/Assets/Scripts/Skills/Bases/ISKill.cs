@@ -29,8 +29,8 @@ public interface ISkill
     /// the position where the skill is to be released.
     /// may or may not be used.
     /// </param>
-    /// <param name="target">the target of the skill, can be null if not used.</param>
-    public void onReleased(Vector3 position, GameObject target);
+    /// <param name="caster">the caster of the skill, can be null if not used.</param>
+    public void onReleased(Vector3 position, GameObject caster);
 
     /// <returns>
     /// true iff releaseSkill can be called now.

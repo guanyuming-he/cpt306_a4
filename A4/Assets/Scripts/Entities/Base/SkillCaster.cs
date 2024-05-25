@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -25,6 +26,11 @@ public class SkillCaster : MonoBehaviour
 
     /*********************************** Observers ***********************************/
 
+    public int getNumPreparedSkills()
+    {
+        return preparedSkills.Count;
+    }
+
     public IReadOnlyList<ConcreteSkill> getPreparedSkills()
     {
         return preparedSkills.AsReadOnly();
@@ -36,6 +42,11 @@ public class SkillCaster : MonoBehaviour
     private bool isIndInPreparedSkillsRange(int ind)
     {
         return 0 <= ind && ind < preparedSkills.Count;
+    }
+
+    public ConcreteSkill getPreparedSkill(int ind)
+    {
+        return preparedSkills[ind];
     }
     
     /// <returns>true iff a skill is selected.</returns>
@@ -77,7 +88,7 @@ public class SkillCaster : MonoBehaviour
     /// Prepare these skills.
     /// Will clear previously prepared skills first.
     /// </summary>
-    public void prepareSkills(List<ConcreteSkill> skills)
+    public virtual void prepareSkills(List<ConcreteSkill> skills)
     {
         if(preparedSkills.Count != 0)
         {
@@ -95,7 +106,7 @@ public class SkillCaster : MonoBehaviour
     /// <exception cref="System.InvalidOperationException">
     /// if the currently selected skill cannot be casted
     /// </exception>
-    protected void castSkill(Vector3 position, GameObject target)
+    protected void castSkill(Vector3 position, GameObject caster)
     {
         ConcreteSkill skill = getSelectedSkill();
         if(skill == null)
@@ -104,8 +115,7 @@ public class SkillCaster : MonoBehaviour
             return;
         }
 
-        // this will throw System.InvalidOperationException if it cannot be released.
-        skill.release(position, target); 
+        skill.release(position, caster); 
     }
 
     /// <summary>
@@ -158,7 +168,11 @@ public class SkillCaster : MonoBehaviour
 
         // play the deselection effect
         var curSkill = getSelectedSkill();
-        Utility.MyDebugAssert(curSkill != null, "terrible logical error happened.");
+        // perhaps the destruction orders caused this.
+        if(curSkill == null)
+        {
+            return;
+        }
         curSkill.onDeselected();
 
         // change the index

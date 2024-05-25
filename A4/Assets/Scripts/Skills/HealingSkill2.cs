@@ -5,12 +5,25 @@ public class HealingSkill2 : InstantaneousSkill
 {
     /*********************************** Private helpers ***********************************/
 
+    protected virtual void spawnHealingEffect(DamageableEntity target)
+    {
+        var healingEffect = GameObject.Instantiate
+        (
+            healingData.healingSkillEffect, 
+            target.gameObject.transform
+        );
+        // Don't forget to destroy it when the healing is done.
+        GameObject.Destroy(healingEffect, healingData.duration * healingData.healingPeriod);
+    }
+    
     /// <summary>
     /// Use this coroutine to easily heal over time.
     /// </summary>
     /// <returns></returns>
     private IEnumerator healingCoro(DamageableEntity target)
     {
+        spawnHealingEffect(target);
+
         for(int i = 0; i < healingData.duration; ++i)
         {
             target.onHealed(healingData.healingAmount);

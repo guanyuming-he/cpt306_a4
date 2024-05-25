@@ -6,9 +6,11 @@ public abstract class DamageableEntity : Entity, IDamageable
 {
     /*********************************** Fields ***********************************/
     private float health;
-    // at Start(), this is set to health to record the max value.
+    // at setInitialHealth(), this is set to health to record the max value.
     private float maxHealth;
     private bool healthSet;
+
+    public float damageMultiplier = 1.0f;
 
     /*********************************** Ctor ***********************************/
     public DamageableEntity()
@@ -69,7 +71,7 @@ public abstract class DamageableEntity : Entity, IDamageable
     public virtual void onTakenDamage(float dmg)
     {
         Utility.MyDebugAssert(dmg >= 0.0f, "can only have a nonnegative damage.");
-        health -= dmg;
+        health -= damageMultiplier * dmg;
 
         if ((this as IDamageable).dead())
         {

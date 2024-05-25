@@ -81,20 +81,18 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
     /// the position where the skill is to be released.
     /// may or may not be used.
     /// </param>
-    /// <param name="target">the target of the skill, can be null if not used.</param>
-    /// <exception cref="System.InvalidOperationException">
-    /// If it cannot be released now.
-    /// </exception>
+    /// <param name="caster">the caster of the skill, can be null if not used.</param>
     /// 
-    public void release(Vector3 position, GameObject target)
+    public void release(Vector3 position, GameObject caster)
     {
         if (!canReleaseSkill())
         {
-            throw new System.InvalidOperationException();
+            // do nothing.
+            return;
         }
 
         // perform the skill's effect
-        onReleased(position, target);
+        onReleased(position, caster);
 
         // restart the cooldown timer
         cooldownTimer.restart();
@@ -121,7 +119,7 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
         selected = true;
     }
 
-    public abstract void onReleased(Vector3 position, GameObject target);
+    public abstract void onReleased(Vector3 position, GameObject caster);
 
     /*********************************** Mono ***********************************/
 

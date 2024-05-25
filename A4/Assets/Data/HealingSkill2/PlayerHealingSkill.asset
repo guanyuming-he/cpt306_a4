@@ -17,7 +17,8 @@ MonoBehaviour:
   level: 1
   skillIconSprite: {fileID: 21300000, guid: bb67b03c2969d104caba950c446f8c8d, type: 3}
   skillName: Healing Skill (Lv.2)
-  description: Heals the caster 10 times in 5 seconds. Each time heals 1.
-  duration: 10
+  description: Heals the caster over time
+  duration: 6
   healingAmount: 1
   healingPeriod: 0.5
+  healingSkillEffect: {fileID: 1547757601392324, guid: 6f672a31584a6a748912a49c1dce2f0c, type: 3}

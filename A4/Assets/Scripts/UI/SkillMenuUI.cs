@@ -11,6 +11,8 @@ public class SkillMenuUI : MonoBehaviour
     public TMP_Text statusText;
     // go back.
     public Button backButton;
+    // clear the prepared skills.
+    public Button clearPreparedBtn;
     // panel of skills
     public RectTransform skillsPanel;
     // for each skill, spawn one this into the panel.
@@ -79,12 +81,18 @@ public class SkillMenuUI : MonoBehaviour
             }
         }
 
-        // the back button
+        // the buttons
         {
             // go back to the main UI.
             backButton.onClick.AddListener(() =>
             {
                 UIManager.switchMenu(gameObject, Game.gameSingleton.uiMgr.mainMenu);
+            });
+
+            // clear the prepared skills
+            clearPreparedBtn.onClick.AddListener(() =>
+            {
+                Game.gameSingleton.stateMgr.playerPreparedSkills.Clear();
             });
         }
 

@@ -275,13 +275,37 @@ public class MapManager : MonoBehaviour
         {
             BossSkills bs = boss.GetComponent<BossSkills>();
             Utility.MyDebugAssert(bs != null, "did I forget to attach this script?");
-            // on the training ground the boss has no skills.
-            // in the full game the boss has all the skills.
-            bs.prepareSkills
-            (
-                fullGame ? Game.gameSingleton.bossSkills : new List<ConcreteSkill>()
-            );
+
+            // prepare the boss's skills
+            if(fullGame)
+            {
+                // for now, normal difficulty.
+                bs.prepareSkillsOnGameStart(1);
+            }
+            else
+            // training ground
+            {
+                bs.prepareSkillsOnGameStart(-1);
+            }
         }
+    }
+
+    /// <summary>
+    /// Init the basic elements (floor, player, boss) on the map.
+    /// </summary>
+    private void init()
+    {
+        // place the floor
+        floor = GameObject.Instantiate(floorPrefab, floorCenterPos, Quaternion.identity);
+        Utility.MyDebugAssert(floor != null, "assign the prefab in the editor.");
+
+        // place the boss
+        boss = GameObject.Instantiate(bossPrefab, bossStart, Quaternion.identity);
+        Utility.MyDebugAssert(boss != null, "assign the prefab in the editor.");
+
+        // place the player
+        player = GameObject.Instantiate(playerPrefab, playerStart, Quaternion.identity);
+        Utility.MyDebugAssert(player != null, "assign the prefab in the editor.");
     }
 
     /*********************************** Mutators ***********************************/
@@ -332,6 +356,8 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void enterTrainingGround()
     {
+        init();
+
         // set up the boss
         setUpBoss(false);
 
@@ -345,6 +371,8 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void enterFullGame()
     {
+        init();
+
         // the objects used in the full game.
         createObstacles();
         createSkillCoin();
@@ -363,40 +391,32 @@ public class MapManager : MonoBehaviour
     {
         GameObject.Destroy(player);
         GameObject.Destroy(boss);
+
         foreach (var obs in obstacles)
         {
             GameObject.Destroy(obs);
         }
+        obstacles.Clear();
         foreach(var coin in skillCoins)
         {
             GameObject.Destroy(coin);
         }
+        skillCoins.Clear();
+
         GameObject.Destroy(floor);
     }
 
     /*********************************** Mono ***********************************/
     /// <summary>
-    /// Init the floor, player, and boss.
+    /// Init the what cannot be done in the ctor
     /// </summary>
     private void Awake()
     {
         // the surface is centered at the origin and facing up.
         floorSurfacePlane = new Plane(Vector3.up, Vector3.zero);
 
-        // place the floor
-        floor = GameObject.Instantiate(floorPrefab, floorCenterPos, Quaternion.identity);
-        Utility.MyDebugAssert(floor != null, "assign the prefab in the editor.");
-
-        // place the boss
-        boss = GameObject.Instantiate(bossPrefab, bossStart, Quaternion.identity);
-        Utility.MyDebugAssert(boss != null, "assign the prefab in the editor.");
-
-        // place the player
-        player = GameObject.Instantiate(playerPrefab, playerStart, Quaternion.identity);
-        Utility.MyDebugAssert(player != null, "assign the prefab in the editor.");
-
-        // Do not init obstacles and skill coins here, as in the training ground they are not needed.
-        // Instead, on entering a full game, they are created by
+        // Do not init anything here, as they are controlled by other methods.
+        //init();
         //createObstacles();
         //createSkillCoin();
     }

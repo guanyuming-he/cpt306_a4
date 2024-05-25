@@ -168,8 +168,11 @@ public class UIManager : MonoBehaviour
     {
         switchMenu(mainMenu, inGameMenu);
 
-        // populate the skill icons.
+        // init the in game menu
         InGameUIScript inGameUIScript = inGameMenu.GetComponent<InGameUIScript>();
+        inGameUIScript.init();
+
+        // populate the skill icons.
         inGameUIScript.populateSkillIcons();
     }
 

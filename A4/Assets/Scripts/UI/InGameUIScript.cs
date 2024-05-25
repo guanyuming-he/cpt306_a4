@@ -28,7 +28,8 @@ public class InGameUIScript : MonoBehaviour
     /// </summary>
     public void populateSkillIcons()
     {
-        var preparedSkills = Game.gameSingleton.mapMgr.player.GetComponent<PlayerSkills>().getPreparedSkills();
+        var ps = Game.gameSingleton.mapMgr.player.GetComponent<PlayerSkills>();
+        var preparedSkills = ps.getPreparedSkills();
 
         for(int i = 0; i < preparedSkills.Count; ++i)
         {
@@ -38,20 +39,14 @@ public class InGameUIScript : MonoBehaviour
             GameObject skillIcon = GameObject.Instantiate(skillInGameUIPrefab, skillIconsPanel);
             SkillInGameIcon skillIconScript = skillIcon.GetComponent<SkillInGameIcon>();
 
-            skillIconScript.bindToSkill(skillNum, preparedSkills[i]);
+            skillIconScript.bindToSkill(skillNum, preparedSkills[i], ps);
         }
     }
 
     /// <summary>
-    /// 1. The player and the boss are created by the MapManager
-    /// in its Awake().
-    /// so, collect them in Start().
-    /// 
-    /// 2. Collect my UI elements.
-    /// 
-    /// 3. Set them up.
+    /// Bind to in game objects.
     /// </summary>
-    void Start()
+    public void init()
     {
         playerEntity = Game.gameSingleton.mapMgr.player.GetComponent<PlayerEntity>();
         playerSkills = Game.gameSingleton.mapMgr.player.GetComponent<PlayerSkills>();
@@ -66,6 +61,13 @@ public class InGameUIScript : MonoBehaviour
         bossHealthBar = healthBars[1];
 
         Utility.MyDebugAssert(skillInGameUIPrefab != null, "assign this in the editor.");
+    }
+
+    /// <summary>
+    /// do nothing.
+    /// </summary>
+    void Start()
+    {
     }
 
     /// <summary>

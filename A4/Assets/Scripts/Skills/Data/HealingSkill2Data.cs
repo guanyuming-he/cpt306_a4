@@ -13,6 +13,8 @@ public class HealingSkill2Data : SkillData
     public float healingAmount;
     // how much time must elapse before the next healing is done?
     public float healingPeriod;
+    // the effect to play when being healed.
+    public GameObject healingSkillEffect;
 
     public HealingSkill2Data()
     {

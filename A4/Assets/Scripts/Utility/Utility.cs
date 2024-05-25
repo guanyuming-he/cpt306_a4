@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Contains all utility functions & variable globally available.
@@ -11,6 +12,27 @@ public static class Utility
     public const float PI = UnityEngine.Mathf.PI;
     public const float TWO_PI = 2.0f * UnityEngine.Mathf.PI;
     public const float HALF_PI = .5f * UnityEngine.Mathf.PI;
+
+    /// <summary>
+    /// Finds a direct child of parent that has tag.
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="tag"></param>
+    /// <returns>the child found, or null if not found.</returns>
+    public static GameObject FindChildWithTag(GameObject parent, string tag)
+    {
+        GameObject ret = null;
+        foreach(Transform childTr in parent.transform)
+        {
+            if(childTr.tag == tag)
+            {
+                ret = childTr.gameObject;
+                break;
+            }
+        }
+
+        return ret;
+    }
 
     /// <summary>
     /// https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitprocess

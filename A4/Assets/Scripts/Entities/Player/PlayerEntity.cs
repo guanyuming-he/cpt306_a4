@@ -30,6 +30,8 @@ public class PlayerEntity : DamageableEntity
     public override void onDeath()
     {
         Game.gameSingleton.gameOver(true);
+
+        UnityEngine.GameObject.Destroy(gameObject);
     }
 
     /*********************************** Mono ***********************************/
@@ -53,4 +55,5 @@ public class PlayerEntity : DamageableEntity
     {
         
     }
+
 }

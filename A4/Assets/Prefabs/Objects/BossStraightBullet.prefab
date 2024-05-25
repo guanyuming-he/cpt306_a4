@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 808156167980323924}
   - component: {fileID: 4844722063983100990}
   - component: {fileID: 5170033460956261520}
-  m_Layer: 6
-  m_Name: PlayerStraightBullet
+  m_Layer: 10
+  m_Name: BossStraightBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 377e13c65cb62ab4b972a6a18023e5f8, type: 2}
+  - {fileID: 2100000, guid: d248f87287fed944f9a709922b3c378e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -149,4 +149,4 @@ MonoBehaviour:
   damage: 2.5
   speed: 10
   direction: {x: 0, y: 0, z: 1}
-  whichSide: 0
+  whichSide: 1

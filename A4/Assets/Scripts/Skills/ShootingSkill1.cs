@@ -25,22 +25,24 @@ public class ShootingSkill1 : InstantaneousSkill
     }
 
     /// <summary>
-    /// Shoots a bullet along the direction: target -> position
-    /// Here the target is abused to point to the one that shoots the bullet.
+    /// Shoots a bullet along the direction: caster -> position
+    /// Here the caster is abused to point to the one that shoots the bullet.
     /// </summary>
     /// <param name="position">where the mouse points to</param>
-    /// <param name="target">he who shoots the bullet</param>
-    public override void onReleased(Vector3 position, GameObject target)
+    /// <param name="caster">he who shoots the bullet</param>
+    public override void onReleased(Vector3 position, GameObject caster)
     {
-        // make the bullet horizontally straight.
-        position.y = target.transform.position.y; 
+        // make the bullet the same height as the player.
+        position.y = .7f;
+        Vector3 casterNewPos = caster.transform.position;
+        casterNewPos.y = .7f;
 
         // the instantiated bullet.
         GameObject bullet;
         Vector3 direction;
         // spawn a bullet at the position, with the correct direction.
         {
-            direction = position - target.transform.position; 
+            direction = position - casterNewPos; 
             // In case this happens...
             if (direction == Vector3.zero)
             {
@@ -50,7 +52,7 @@ public class ShootingSkill1 : InstantaneousSkill
             bullet = GameObject.Instantiate
             (
                 shootingSKillData.bulletPrefab,
-                target.transform.position,
+                casterNewPos,
                 Quaternion.LookRotation(direction)
             );
         }

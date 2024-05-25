@@ -168,4 +168,12 @@ public sealed class PlayerMovement : MonoBehaviour
             onNotMoving();
         }
     }
+
+    /// <summary>
+    /// Destroy the movement indicator
+    /// </summary>
+    private void OnDestroy()
+    {
+        GameObject.Destroy(moveIndicator);        
+    }
 }

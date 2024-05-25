@@ -61,7 +61,7 @@ public class PlayerSkills : SkillCaster
                     return;
                 }
 
-                // For now, all skills' target is self.
+                // For now, all skills' caster is self.
                 try
                 {
                     castSkill(position, gameObject);
@@ -72,5 +72,11 @@ public class PlayerSkills : SkillCaster
                 }
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        // deselect the skills to avoid problems on replay
+        deselectSkill();
     }
 }
