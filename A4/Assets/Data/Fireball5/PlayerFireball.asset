@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee77b6ba8681104d9c26a03dd566c4b, type: 3}
   m_Name: PlayerFireball
   m_EditorClassIdentifier: 
-  cooldown: 10
+  cooldown: 20
   cost: 5
   level: 4
   skillIconSprite: {fileID: 21300000, guid: 40e3e640d96dde846bfccdf0264080dd, type: 3}

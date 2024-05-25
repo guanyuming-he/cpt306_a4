@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee77b6ba8681104d9c26a03dd566c4b, type: 3}
   m_Name: BossFireball
   m_EditorClassIdentifier: 
-  cooldown: 10
+  cooldown: 14
   cost: 5
   level: 4
   skillIconSprite: {fileID: 21300000, guid: 40e3e640d96dde846bfccdf0264080dd, type: 3}
   skillName: Fire ball (Lv.5)
   description: Shoots a ball of fire element that can break the ice element shield
     and deal huge amount of damage.
-  damage: 20
+  damage: 18
   fireballPrefab: {fileID: 1947871717301538, guid: a4772586135f05b4bb5cb03c75f54a04, type: 3}

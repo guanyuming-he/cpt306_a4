@@ -60,6 +60,12 @@ public abstract class DamageableEntity : Entity, IDamageable
     {
         Utility.MyDebugAssert(healedAmount > 0.0f, "can only heal a positive amount.");
         health += healedAmount;
+
+        // do not go over it.
+        if(health > maxHealth)
+        {
+            health = maxHealth;
+        }
     }
 
     /*********************************** From IDamageable ***********************************/
