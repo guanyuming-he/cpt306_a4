@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     public GameObject inGameMenu;
     public GameObject optionsMenu;
     public GameObject skillsMenu;
+    public GameObject difficultyMenu;
 
     /*********************************** Private helpers ***********************************/
     /// <summary>
@@ -45,12 +46,14 @@ public class UIManager : MonoBehaviour
         this.inGameMenu = GameObject.Instantiate(inGameMenu);
         this.optionsMenu = GameObject.Instantiate(optionsMenu);
         this.skillsMenu = GameObject.Instantiate(skillsMenu);
+        this.difficultyMenu = GameObject.Instantiate(difficultyMenu);
 
         Utility.MyDebugAssert(mainMenu != null, "check UIManager prefabs");
         Utility.MyDebugAssert(gameOverMenu != null, "check UIManager prefabs");
         Utility.MyDebugAssert(inGameMenu != null, "check UIManager prefabs");
         Utility.MyDebugAssert(optionsMenu != null, "check UIManager prefabs");
         Utility.MyDebugAssert(skillsMenu != null, "check UIManager prefabs");
+        Utility.MyDebugAssert(difficultyMenu != null, "check UIManager prefabs");
     }
 
     /// <summary>
@@ -135,6 +138,24 @@ public class UIManager : MonoBehaviour
         {
             // nothing. it is controlled by a dedicated script.
         }
+
+        // difficulty menu
+        {
+            var btns = difficultyMenu.GetComponentsInChildren<Button>();
+
+            // easy
+            btns[0].onClick.AddListener(() =>
+            {
+                Game.gameSingleton.difficulty = Game.Difficulty.EASY;
+                switchMenu(difficultyMenu, optionsMenu);
+            });
+            // normal
+            btns[1].onClick.AddListener(() =>
+            {
+                Game.gameSingleton.difficulty = Game.Difficulty.NORMAL;
+                switchMenu(difficultyMenu, optionsMenu);
+            });
+        }
 #endif
     }
 
@@ -149,6 +170,7 @@ public class UIManager : MonoBehaviour
         optionsMenu.SetActive(false);
         gameOverMenu.SetActive(false);
         skillsMenu.SetActive(false);
+        difficultyMenu.SetActive(false);
         // inGameMenu.SetActive(false);
     }
 

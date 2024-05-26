@@ -64,8 +64,10 @@ public class Bullet : Entity
 
         // destroy out of bound bullets
         if 
-        (transform.position.x < -.5f * 50.0f || transform.position.x > .5f * 50.0f ||
-            transform.position.z < -.5f * 50.0f || transform.position.z > .5f * 50.0f 
+        (
+            transform.position.x < -.5f * 50.0f || transform.position.x > .5f * 50.0f ||
+            transform.position.z < -.5f * 50.0f || transform.position.z > .5f * 50.0f ||
+            transform.position.y < -.5f * 40.0f || transform.position.y > .5f * 40.0f 
         )
         {
             Destroy(gameObject);

@@ -65,8 +65,10 @@ public class TimerBomb : Entity
         // play the explosion effect
         var expEff = GameObject.Instantiate(explosionEffect, gameObject.transform.position, Quaternion.identity);
         // scale it with the explosion radius.
-        // the effect looks like having a 1.8 radius.
-        expEff.transform.localScale = explosionRadius / 1.8f * Vector3.one;
+        // the effect looks like having a 1.1 radius.
+        expEff.transform.localScale = explosionRadius / 1.1f * Vector3.one;
+        AudioSource expAudio = expEff.GetComponent<AudioSource>();
+        AudioManager.playEffect(expAudio);
 
         // destroy myself
         GameObject.Destroy(gameObject);

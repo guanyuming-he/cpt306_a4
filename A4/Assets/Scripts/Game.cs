@@ -7,7 +7,19 @@ using UnityEngine;
 /// </summary>
 public sealed class Game : MonoBehaviour
 {
+    /*********************************** Statis ***********************************/
+    public enum Difficulty
+    {
+        EASY = 0,
+        NORMAL = 1,
+    }
+
     /*********************************** Fields ***********************************/
+    public Difficulty difficulty = Difficulty.EASY;
+
+    /// <summary>
+    /// Managers
+    /// </summary>
     public readonly StateManager stateMgr;
     // assigned in editor
     public CameraManager cameraMgr;
@@ -16,8 +28,16 @@ public sealed class Game : MonoBehaviour
     // assigned in editor
     public UIManager uiMgr;
 
+    /// <summary>
+    /// Skills
+    /// </summary>
     public List<ConcreteSkill> playerSkills;
     public List<ConcreteSkill> bossSkills;
+
+    /// <summary>
+    /// Audio
+    /// </summary>
+    AudioSource bgMusic;
 
     // Will always be available before all's ctor
     // (because Game creates all, and in its ctor, the singleton var is assigned first).
@@ -105,7 +125,22 @@ public sealed class Game : MonoBehaviour
     public void goHome()
     {
         stateMgr.goHome();
+
+        // clear previous game objects and states
         mapMgr.clear();
+
+        // reset the skill cooldowns
+        {
+            foreach (var s in playerSkills)
+            {
+                s.resetCooldown();
+            }
+            foreach (var s in bossSkills)
+            {
+                s.resetCooldown();
+            }
+        }
+        
         UIManager.switchMenu(uiMgr.gameOverMenu, uiMgr.mainMenu);
     }
 
@@ -149,12 +184,17 @@ public sealed class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        bgMusic = GetComponent<AudioSource>();
+        Utility.MyDebugAssert(bgMusic != null, "should have the bg music.");
+        AudioManager.playMusic(bgMusic);
+
         initSkills();
         uiMgr.mainMenu.SetActive(true);
     }
 
     /// <summary>
     /// 1. See if the player presses the exit key during play
+    /// 2. bg music volume
     /// </summary>
     private void Update()
     {
@@ -166,5 +206,8 @@ public sealed class Game : MonoBehaviour
                 exitGame();
             }
         }
+
+        // 2.
+        bgMusic.volume = AudioManager.musicStrength();
     }
 }

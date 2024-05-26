@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 using System;
 using UnityEngine;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Contains all utility functions & variable globally available.
@@ -32,6 +33,21 @@ public static class Utility
         }
 
         return ret;
+    }
+
+    /// <summary>
+    /// Destroy all direct child GameObjects of parent.
+    /// </summary>
+    /// <param name="parent"></param>
+    public static void DestroyAllChildren(GameObject parent)
+    {
+        foreach(Transform childTr in parent.transform)
+        {
+            if(!childTr.gameObject.IsDestroyed())
+            {
+                GameObject.Destroy(childTr.gameObject);
+            }
+        }
     }
 
     /// <summary>

@@ -26,7 +26,11 @@ public class HealingSkill2 : InstantaneousSkill
 
         for(int i = 0; i < healingData.duration; ++i)
         {
-            target.onHealed(healingData.healingAmount);
+            // in case target has died during the skill.
+            if(target != null)
+            {
+                target.onHealed(healingData.healingAmount);
+            }
             yield return new WaitForSeconds(healingData.healingPeriod);
         }
     }

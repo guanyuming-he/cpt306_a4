@@ -136,8 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d824d8ee943f1c4bb25e38aa71db006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameHealth: 100
-  trainingGroundHealth: 1000
+  damageMultiplier: 1
+  gameHealth: 120
+  trainingGroundHealth: 3200
 --- !u!114 &6970556394902163402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,3 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a97b9c3ec2fdf734494c817fec63697c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToCastNextSkill: 2

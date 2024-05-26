@@ -39,6 +39,7 @@ public class SkillMenuUI : MonoBehaviour
         statusText.text = string.Format("Skill Coins: {0}", Game.gameSingleton.stateMgr.getNumSkillCoins());
 
         string preparedSkillsStr = "Prepared skills:\n" 
+            + "(index starts from 0)\n"
             + "(Only 4 can be prepared)\n";
         foreach(int pi in Game.gameSingleton.stateMgr.playerPreparedSkills)
         {

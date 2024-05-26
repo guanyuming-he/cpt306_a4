@@ -49,3 +49,4 @@ MonoBehaviour:
   inGameMenu: {fileID: 665828791393270005, guid: a447db67afa289b428d680ff10c9e6b9, type: 3}
   optionsMenu: {fileID: 5310361889938612048, guid: 1774de3b3d8351547820c40f50e48ae2, type: 3}
   skillsMenu: {fileID: 7720493601271587184, guid: 61114b44405b1634d9d61714e1334860, type: 3}
+  difficultyMenu: {fileID: 7781467586194739268, guid: 0984e2deac9016540b92fecff25a8e2a, type: 3}

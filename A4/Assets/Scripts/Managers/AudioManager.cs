@@ -1,3 +1,5 @@
+using UnityEngine;
+
 /// <summary>
 /// The audio manager is a static collection of audio variables.
 /// 
@@ -23,5 +25,25 @@ public class AudioManager
     public static float effectsStrength()
     {
         return masterVolume * effectsVolume;
+    }
+
+    /// <summary>
+    /// Plays a piece of music audio
+    /// </summary>
+    /// <param name="audio"></param>
+    public static void playMusic(AudioSource audio)
+    {
+        audio.volume = musicStrength();
+        audio.Play();
+    }
+
+    /// <summary>
+    /// Plays a piece of effect audio
+    /// </summary>
+    /// <param name="audio"></param>
+    public static void playEffect(AudioSource audio)
+    {
+        audio.volume = effectsStrength();
+        audio.Play();
     }
 }

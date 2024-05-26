@@ -35,6 +35,14 @@ public abstract class ConcreteSkill : MonoBehaviour, ISkill
     }
 
     /*********************************** Observers ***********************************/
+    
+    /// <summary>
+    /// Resets the cooldown of the skill so that is will be ready.
+    /// </summary>
+    public void resetCooldown()
+    {
+        cooldownTimer.reset();
+    }
 
     /// <summary>
     /// A skill is in cooldown iff the cooldown timer is running.

@@ -279,8 +279,7 @@ public class MapManager : MonoBehaviour
             // prepare the boss's skills
             if(fullGame)
             {
-                // for now, normal difficulty.
-                bs.prepareSkillsOnGameStart(1);
+                bs.prepareSkillsOnGameStart((int)Game.gameSingleton.difficulty);
             }
             else
             // training ground

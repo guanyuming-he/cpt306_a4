@@ -5,6 +5,9 @@ public class Fireball5 : InstantaneousSkill
     /*********************************** Fields ***********************************/
     // for convenience, I convert the skillData field to the more specific type.
     protected Fireball5Data fireballData;
+    
+    // the fireball audio
+    private AudioSource fireballAudio;
 
     /*********************************** From ConcreteSkill ***********************************/
 
@@ -39,7 +42,7 @@ public class Fireball5 : InstantaneousSkill
         Vector3 direction;
         // spawn a bullet at the position, with the correct direction.
         {
-            direction = position - casterNewPos; 
+            direction = position - casterNewPos;
             // In case this happens...
             if (direction == Vector3.zero)
             {
@@ -54,7 +57,6 @@ public class Fireball5 : InstantaneousSkill
             );
         }
 
-
         // set up the fireball
         {
             Fireball fireballScript = bullet.GetComponent<Fireball>();
@@ -64,6 +66,17 @@ public class Fireball5 : InstantaneousSkill
             fireballScript.damage = fireballData.damage;
             fireballScript.direction = direction.normalized;
         }
+
+        // play the sound
+        {
+            AudioManager.playEffect(fireballAudio);
+        }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        fireballAudio = GetComponent<AudioSource>();
     }
 
 }

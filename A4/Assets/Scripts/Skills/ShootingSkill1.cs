@@ -9,6 +9,8 @@ public class ShootingSkill1 : InstantaneousSkill
     // for convenience, I convert the skillData field to the more specific type.
     protected ShootSkill1Data shootingSKillData;
 
+    private AudioSource shootingAudio;
+
     /*********************************** From ConcreteSkill ***********************************/
 
     /// <summary>
@@ -42,7 +44,7 @@ public class ShootingSkill1 : InstantaneousSkill
         Vector3 direction;
         // spawn a bullet at the position, with the correct direction.
         {
-            direction = position - casterNewPos; 
+            direction = position - casterNewPos;
             // In case this happens...
             if (direction == Vector3.zero)
             {
@@ -66,5 +68,16 @@ public class ShootingSkill1 : InstantaneousSkill
             bulletScript.damage = shootingSKillData.damage;
             bulletScript.direction = direction.normalized;
         }
+
+        // play the sound effect
+        {
+            AudioManager.playEffect(shootingAudio);
+        }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        shootingAudio = GetComponent<AudioSource>();
     }
 }

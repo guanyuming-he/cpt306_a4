@@ -12,6 +12,8 @@ public abstract class SkillData : ScriptableObject
     /*********************************** Fields ***********************************/
     [Header("Gameplay")]
     public float cooldown = 1.0f;
+    // can be null, if not used.
+    public AudioClip audioEffect;
 
     [Header("Skill Properties")]
     public uint cost = 1;

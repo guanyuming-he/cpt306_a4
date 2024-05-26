@@ -6,6 +6,9 @@ using UnityEngine;
 /// </summary>
 public class RainOfArrow3 : InstantaneousSkill
 {
+
+    private AudioSource audioEffect;
+
     /// <summary>
     /// use this coroutine to rain the bullets over time.
     /// </summary>
@@ -64,6 +67,15 @@ public class RainOfArrow3 : InstantaneousSkill
     {
         position.y = rainData.height;
 
+        AudioManager.playEffect(audioEffect);
+
         StartCoroutine(rainCoro(position));
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        audioEffect = GetComponent<AudioSource>();
     }
 }

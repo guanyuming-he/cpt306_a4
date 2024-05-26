@@ -1,5 +1,8 @@
-﻿using UnityEditor;
+﻿using TMPro;
+#if UNITY_EDITOR
+using UnityEditor;
 using UnityEditor.Events;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +12,7 @@ using UnityEngine.UI;
 public class OptionsUIScript : MonoBehaviour
 {
     Slider[] optionsMenuSliders;
+    TMP_Text chDifficultyBtnText;
 
     private void Start()
     {
@@ -77,14 +81,34 @@ public class OptionsUIScript : MonoBehaviour
         // buttons
         {
             var btns = gameObject.GetComponentsInChildren<Button>();
-            Utility.MyDebugAssert(btns.Length == 1);
+            Utility.MyDebugAssert(btns.Length == 2);
+
+            // ch difficulty btn
+            btns[0].onClick.AddListener(() =>
+            {
+                UIManager.switchMenu(gameObject, Game.gameSingleton.uiMgr.difficultyMenu);
+            });
+            chDifficultyBtnText = btns[0].gameObject.GetComponentInChildren<TMP_Text>();
+            
             // go back button
-            btns[0].onClick.AddListener
+            btns[1].onClick.AddListener
             (
                 () => UIManager.switchMenu(gameObject, Game.gameSingleton.uiMgr.mainMenu)
             );
+
+
         }
 #endif
 
+    }
+
+    private void Update()
+    {
+        // change the difficulty text 
+        chDifficultyBtnText.text = string.Format
+        (
+            "Change difficulty.\n Current: {0}",
+            Game.gameSingleton.difficulty.ToString()
+        );
     }
 }

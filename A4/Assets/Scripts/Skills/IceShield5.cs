@@ -16,6 +16,8 @@ public class IceShield5 : InstantaneousSkill
     {
         var shield = GameObject.Instantiate(shieldData.iceShieldEffect, target.transform);
         MeshRenderer renderer = shield.GetComponent<MeshRenderer>();
+        AudioSource iceshieldAudio = shield.GetComponent<AudioSource>();
+        AudioManager.playEffect(iceshieldAudio);
 
         // make the shield semi-transparent.
         var temp = renderer.material.color;

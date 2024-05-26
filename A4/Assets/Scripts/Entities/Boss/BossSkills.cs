@@ -33,10 +33,18 @@ public class BossSkills : SkillCaster
         {
             if (getPreparedSkill(i).canReleaseSkill())
             {
-                selectSkill(i);
+                if(getIndSelectedSkill() != i)
+                {
+                    // select it, if not selected yet.
+                    selectSkill(i);
+                }
+
                 // cast to the player's position
                 // caster is always self in this game.
-                castSkill(Game.gameSingleton.mapMgr.player.transform.position, gameObject);
+                if(!Game.gameSingleton.mapMgr.player.IsDestroyed())
+                {
+                    castSkill(Game.gameSingleton.mapMgr.player.transform.position, gameObject);
+                }
 
                 break;
             }
@@ -133,5 +141,13 @@ public class BossSkills : SkillCaster
     private void Update()
     {
         castSkillTimer.update(Time.deltaTime);
+    }
+
+    /// <summary>
+    /// Deselect all skills on death.
+    /// </summary>
+    private void OnDestroy()
+    {
+        deselectSkill();
     }
 }

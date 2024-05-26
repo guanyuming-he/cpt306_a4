@@ -28,6 +28,9 @@ public class InGameUIScript : MonoBehaviour
     /// </summary>
     public void populateSkillIcons()
     {
+        // clear the panel's previous children first.
+        Utility.DestroyAllChildren(skillIconsPanel.gameObject);
+
         var ps = Game.gameSingleton.mapMgr.player.GetComponent<PlayerSkills>();
         var preparedSkills = ps.getPreparedSkills();
 
